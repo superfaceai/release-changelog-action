@@ -1,7 +1,7 @@
 import fs from 'fs';
 import {releaseChangelog} from './releaseChangelog';
 
-function expectedChangelog(releaseDate: Date) {
+function expectedChangelog(releaseDate: Date): string {
   return `# Changelog
 
 All notable changes to this project will be documented in this file.
@@ -63,11 +63,9 @@ describe('releaseChangelog', () => {
 
   it('should throw if changelog file format is corrupted', () => {
     expect(() => {
-      console.debug(
-        releaseChangelog(
-          './src/fixtures/CHANGELOG_CORRUPTED.fixture.md',
-          '1.1.0'
-        )
+      releaseChangelog(
+        './src/fixtures/CHANGELOG_CORRUPTED.fixture.md',
+        '1.1.0'
       );
     }).toThrowError('Unable to parse changelog. Parser error:');
   });
