@@ -83,8 +83,7 @@ Then run [ncc](https://github.com/zeit/ncc) and push the results:
 ```bash
 $ npm run package
 $ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
+$ git commit -a -m "chore: prod dependencies"
 ```
 
 After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
