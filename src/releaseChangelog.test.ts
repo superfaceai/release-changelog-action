@@ -1,5 +1,5 @@
 import fs from 'fs';
-import {releaseChangelog} from '../src/releaseChangelog';
+import {releaseChangelog} from './releaseChangelog';
 
 function expectedChangelog(releaseDate: Date) {
   return `# Changelog
@@ -28,16 +28,16 @@ describe('releaseChangelog', () => {
   it('should return updated changelog', () => {
     fs.writeFileSync = jest.fn();
     expect(
-      releaseChangelog('./__tests__/fixtures/CHANGELOG.fixture.md', 'v1.1.0')
+      releaseChangelog('./src/fixtures/CHANGELOG.fixture.md', 'v1.1.0')
     ).toBe(expectedChangelog(new Date()));
   });
 
   it('should write updated changelog to file system', () => {
     const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync');
-    releaseChangelog('./__tests__/fixtures/CHANGELOG.fixture.md', 'v1.1.0');
+    releaseChangelog('./src/fixtures/CHANGELOG.fixture.md', 'v1.1.0');
     expect(writeFileSyncSpy).toBeCalled();
     expect(writeFileSyncSpy.mock.calls[0][0]).toBe(
-      './__tests__/fixtures/CHANGELOG.fixture.md'
+      './src/fixtures/CHANGELOG.fixture.md'
     );
     expect(writeFileSyncSpy.mock.calls[0][1]).toBe(
       expectedChangelog(new Date())
@@ -46,7 +46,7 @@ describe('releaseChangelog', () => {
 
   it('should throw if version has been already released', () => {
     expect(() => {
-      releaseChangelog('./__tests__/fixtures/CHANGELOG.fixture.md', 'v1.0.0');
+      releaseChangelog('./src/fixtures/CHANGELOG.fixture.md', 'v1.0.0');
     }).toThrowError(
       'Unable to release version v1.0.0 which has already been released'
     );
@@ -55,7 +55,7 @@ describe('releaseChangelog', () => {
   it('should throw if unreleased section is missing', () => {
     expect(() => {
       releaseChangelog(
-        './__tests__/fixtures/CHANGELOG_UNRELEASED_MISSING.fixture.md',
+        './src/fixtures/CHANGELOG_UNRELEASED_MISSING.fixture.md',
         '1.1.0'
       );
     }).toThrowError('Unreleased changelog section not found');
@@ -65,7 +65,7 @@ describe('releaseChangelog', () => {
     expect(() => {
       console.debug(
         releaseChangelog(
-          './__tests__/fixtures/CHANGELOG_CORRUPTED.fixture.md',
+          './src/fixtures/CHANGELOG_CORRUPTED.fixture.md',
           '1.1.0'
         )
       );
