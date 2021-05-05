@@ -2,6 +2,31 @@ require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 982:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getVersionChangelog = void 0;
+const fs_1 = __importDefault(__webpack_require__(747));
+const keep_a_changelog_1 = __webpack_require__(772);
+function getVersionChangelog(changelogPath, version) {
+    const changelog = keep_a_changelog_1.parser(fs_1.default.readFileSync(changelogPath, 'utf8'));
+    const release = changelog.findRelease(version);
+    if (!release) {
+        throw new Error(`Version ${version} not found in changelog`);
+    }
+    return release.toString();
+}
+exports.getVersionChangelog = getVersionChangelog;
+
+
+/***/ }),
+
 /***/ 109:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -37,16 +62,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
+const getVersionChangelog_1 = __webpack_require__(982);
 const releaseChangelog_1 = __webpack_require__(494);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const pathToChangelog = core.getInput('path-to-changelog');
-            core.info(`Changelog path: ${pathToChangelog}`);
             const version = core.getInput('version');
-            core.info(`Releasing version: ${version}`);
-            releaseChangelog_1.releaseChangelog(pathToChangelog, version);
-            core.info('Changelog update finished');
+            const operation = core.getInput('operation');
+            core.info(`${operation} changelog, path: ${pathToChangelog}, version: ${version}`);
+            switch (operation) {
+                case 'release':
+                    core.setOutput('changelog', releaseChangelog_1.releaseChangelog(pathToChangelog, version));
+                    break;
+                case 'read':
+                    core.setOutput('changelog', getVersionChangelog_1.getVersionChangelog(pathToChangelog, version));
+                    break;
+                default:
+                    throw Error(`Operation ${operation} not supported`);
+            }
+            core.info(`${operation} changelog finished`);
         }
         catch (error) {
             core.setFailed(error.message);

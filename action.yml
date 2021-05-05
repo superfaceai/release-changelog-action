@@ -1,5 +1,5 @@
 name: 'Release changelog'
-description: 'Update unreleased changelog section with current date and version'
+description: 'Release new version or read version changelog'
 author: 'superface.ai'
 inputs:
   path-to-changelog:
@@ -7,8 +7,14 @@ inputs:
     required: true
     default: ./CHANGELOG.md
   version:
-    description: 'Version to be released'
+    description: 'Version to be released or read'
     required: true
+  operation:
+    description: 'release | read'
+    required: true
+outputs:
+  changelog:
+    description: 'Read or released changelog'
 runs:
   using: 'node12'
   main: 'dist/index.js'
