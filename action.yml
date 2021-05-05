@@ -1,11 +1,14 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Release changelog'
+description: 'Update unreleased changelog section with current date and version'
+author: 'superface.ai'
 inputs:
-  milliseconds: # change this
+  path-to-changelog:
+    description: 'Path to changelog file in keep-a-changelog format'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    default: ./CHANGELOG.md
+  version:
+    description: 'Version to be released'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

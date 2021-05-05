@@ -1,19 +1,20 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from '@actions/core';
+import {releaseChangelog} from './releaseChangelog';
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const pathToChangelog = core.getInput('path-to-changelog');
+    core.info(`Changelog path: ${pathToChangelog}`);
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const version = core.getInput('version');
+    core.info(`Releasing version: ${version}`);
 
-    core.setOutput('time', new Date().toTimeString())
+    releaseChangelog(pathToChangelog, version);
+
+    core.info('Changelog update finished');
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error.message);
   }
 }
 
-run()
+run();
