@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
+  "name": "release-changelog-action",
+  "version": "1.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Release unreleased changes in your Keep a Changelog",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/superfaceai/release-changelog-action.git"
   },
   "keywords": [
     "actions",
@@ -25,7 +25,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.6"
+    "@actions/core": "^1.2.6",
+    "keep-a-changelog": "^0.10.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",

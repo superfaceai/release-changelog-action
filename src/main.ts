@@ -1,19 +1,34 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from '@actions/core';
+import {getVersionChangelog} from './getVersionChangelog';
+import {releaseChangelog} from './releaseChangelog';
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const pathToChangelog = core.getInput('path-to-changelog');
+    const version = core.getInput('version');
+    const operation = core.getInput('operation');
+    core.info(
+      `${operation} changelog, path: ${pathToChangelog}, version: ${version}`
+    );
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    switch (operation) {
+      case 'release':
+        core.setOutput('changelog', releaseChangelog(pathToChangelog, version));
+        break;
+      case 'read':
+        core.setOutput(
+          'changelog',
+          getVersionChangelog(pathToChangelog, version)
+        );
+        break;
+      default:
+        throw Error(`Operation ${operation} not supported`);
+    }
 
-    core.setOutput('time', new Date().toTimeString())
+    core.info(`${operation} changelog finished`);
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error.message);
   }
 }
 
-run()
+run();
