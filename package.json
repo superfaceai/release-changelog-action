@@ -23,7 +23,7 @@
     "changelog",
     "release"
   ],
-  "author": "",
+  "author": "Superface Team",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",
