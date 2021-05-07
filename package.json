@@ -1,7 +1,7 @@
 {
   "name": "release-changelog-action",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "Release unreleased changes in your Keep a Changelog",
   "main": "lib/main.js",
   "scripts": {
@@ -20,9 +20,10 @@
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "changelog",
+    "release"
   ],
-  "author": "",
+  "author": "Superface Team",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",
