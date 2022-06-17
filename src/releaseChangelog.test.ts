@@ -15,12 +15,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - New feature
 
-## 1.0.0 - 2021-04-30
+## [1.0.0] - 2021-04-30
 ### Added
 - First version
 
 [Unreleased]: https://github.com/janhalama/test-package-releasing/compare/v1.1.0...HEAD
 [1.1.0]: https://github.com/janhalama/test-package-releasing/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/janhalama/test-package-releasing/releases/tag/v1.0.0
 `;
 }
 

@@ -316,6 +316,19 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@deno/shim-deno-test@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@deno/shim-deno-test/-/shim-deno-test-0.3.2.tgz#03f258363ba0f57310188e888f8f17629fcdc59d"
+  integrity sha512-STxWMnLuA0/bT0F41yKx6AbyzVVSjXYvgleFE4xit/m4aooMG/0Bs0MiQUe95EVS8DrzYmWbuCtdIlWymAdlsw==
+
+"@deno/shim-deno@~0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@deno/shim-deno/-/shim-deno-0.4.3.tgz#3bb6a4e3749133f98e8373ea2e79efaa43fb182a"
+  integrity sha512-m5iXsq3Nvv1aJ1xwUQGnXXOztZ5UUF9dZje3l6EbX41zE5+MioK1NN+2+C3nlWWs9PvSFam4EbZVG3JUbLCeDg==
+  dependencies:
+    "@deno/shim-deno-test" "^0.3.2"
+    which "^2.0.2"
+
 "@eslint/eslintrc@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.0.tgz#99cc0a0584d72f1df38b900fb062ba995f395547"
@@ -2046,13 +2059,6 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gitconfiglocal@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/gitconfiglocal/-/gitconfiglocal-2.1.0.tgz#07c28685c55cc5338b27b5acbcfe34aeb92e43d1"
-  integrity sha512-qoerOEliJn3z+Zyn1HW2F6eoYJqKwS6MgC9cztTLUB/xLWX8gD/6T60pKn4+t/d6tP7JlybI7Z3z+I572CR/Vg==
-  dependencies:
-    ini "^1.3.2"
-
 glob-parent@^5.0.0, glob-parent@^5.1.0:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -2265,11 +2271,6 @@ inherits@2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
-
-ini@^1.3.2:
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
-  integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
 is-accessor-descriptor@^0.1.6:
   version "0.1.6"
@@ -3067,14 +3068,12 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-keep-a-changelog@^0.10.4:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/keep-a-changelog/-/keep-a-changelog-0.10.4.tgz#fd2af71e7beccba26a8cf3857c7c47e524ade1cb"
-  integrity sha512-egtoaVyuQD5xFfZ/q3prVZM0TF8YYHcuWxbLg6jlPNu/PVkJba2Bvl6QukY+InoN6uXElbopE/gCLS3hNunhLg==
+keep-a-changelog@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/keep-a-changelog/-/keep-a-changelog-2.1.0.tgz#abedb23407eb6cee3f586e705de457a2b73f3b46"
+  integrity sha512-Svnmt3UTW0U8RdAi24jy2OuU03wEYZkD7vrJuK9u5gIYk6as/BvbSDK0oFtnZLC8xDludDYDsomq7tetEUR0Ow==
   dependencies:
-    gitconfiglocal "^2.1.0"
-    semver "^7.3.2"
-    yargs-parser "^18.1.3"
+    "@deno/shim-deno" "~0.4.3"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
@@ -4729,7 +4728,7 @@ yargs-parser@20.x:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.7.tgz#61df85c113edfb5a7a4e36eb8aa60ef423cbc90a"
   integrity sha512-FiNkvbeHzB/syOjIUxFDCnhSfzAL8R5vs40MgLFBorXACCOAEaWu0gRZl14vG8MR9AOJIZbmkjhusqBYZ3HTHw==
 
-yargs-parser@^18.1.2, yargs-parser@^18.1.3:
+yargs-parser@^18.1.2:
   version "18.1.3"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-18.1.3.tgz#be68c4975c6b2abf469236b0c870362fab09a7b0"
   integrity sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==

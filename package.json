@@ -27,7 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.0",
-    "keep-a-changelog": "^0.10.4"
+    "keep-a-changelog": "^2.1.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
