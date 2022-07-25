@@ -1,9 +1,8 @@
-require('./sourcemap-register.js');module.exports =
-/******/ (() => { // webpackBootstrap
+require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 982:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
@@ -12,10 +11,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getVersionChangelog = void 0;
-const fs_1 = __importDefault(__webpack_require__(747));
-const keep_a_changelog_1 = __webpack_require__(772);
+const fs_1 = __importDefault(__nccwpck_require__(147));
+const keep_a_changelog_1 = __nccwpck_require__(812);
 function getVersionChangelog(changelogPath, version) {
-    const changelog = keep_a_changelog_1.parser(fs_1.default.readFileSync(changelogPath, 'utf8'));
+    const changelog = (0, keep_a_changelog_1.parser)(fs_1.default.readFileSync(changelogPath, 'utf8'));
     const release = changelog.findRelease(version);
     if (!release) {
         throw new Error(`Version ${version} not found in changelog`);
@@ -28,13 +27,17 @@ exports.getVersionChangelog = getVersionChangelog;
 /***/ }),
 
 /***/ 109:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -61,9 +64,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__webpack_require__(186));
-const getVersionChangelog_1 = __webpack_require__(982);
-const releaseChangelog_1 = __webpack_require__(494);
+const core = __importStar(__nccwpck_require__(186));
+const getVersionChangelog_1 = __nccwpck_require__(982);
+const releaseChangelog_1 = __nccwpck_require__(494);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -73,10 +76,10 @@ function run() {
             core.info(`${operation} changelog, path: ${pathToChangelog}, version: ${version}`);
             switch (operation) {
                 case 'release':
-                    core.setOutput('changelog', releaseChangelog_1.releaseChangelog(pathToChangelog, version));
+                    core.setOutput('changelog', (0, releaseChangelog_1.releaseChangelog)(pathToChangelog, version));
                     break;
                 case 'read':
-                    core.setOutput('changelog', getVersionChangelog_1.getVersionChangelog(pathToChangelog, version));
+                    core.setOutput('changelog', (0, getVersionChangelog_1.getVersionChangelog)(pathToChangelog, version));
                     break;
                 default:
                     throw Error(`Operation ${operation} not supported`);
@@ -84,7 +87,12 @@ function run() {
             core.info(`${operation} changelog finished`);
         }
         catch (error) {
-            core.setFailed(error.message);
+            if (error instanceof Error) {
+                core.setFailed(error.message);
+            }
+            else {
+                core.setFailed('Unknown error');
+            }
         }
     });
 }
@@ -94,7 +102,7 @@ run();
 /***/ }),
 
 /***/ 494:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
@@ -103,15 +111,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.releaseChangelog = void 0;
-const fs_1 = __importDefault(__webpack_require__(747));
-const keep_a_changelog_1 = __webpack_require__(772);
+const fs_1 = __importDefault(__nccwpck_require__(147));
+const keep_a_changelog_1 = __nccwpck_require__(812);
 function releaseChangelog(changelogPath, version) {
     let changelog;
     try {
-        changelog = keep_a_changelog_1.parser(fs_1.default.readFileSync(changelogPath, 'utf8'));
+        changelog = (0, keep_a_changelog_1.parser)(fs_1.default.readFileSync(changelogPath, 'utf8'));
     }
     catch (err) {
-        throw Error(`Unable to parse changelog. Parser error: ${err.message}`);
+        if (err instanceof Error) {
+            throw Error(`Unable to parse changelog. Parser error: ${err.message}`);
+        }
+        else {
+            throw Error('Unable to parse changelog.');
+        }
     }
     const release = changelog.findRelease(version);
     if (release) {
@@ -134,20 +147,33 @@ exports.releaseChangelog = releaseChangelog;
 /***/ }),
 
 /***/ 351:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const os = __importStar(__webpack_require__(87));
-const utils_1 = __webpack_require__(278);
+exports.issue = exports.issueCommand = void 0;
+const os = __importStar(__nccwpck_require__(37));
+const utils_1 = __nccwpck_require__(278);
 /**
  * Commands
  *
@@ -220,10 +246,29 @@ function escapeProperty(s) {
 /***/ }),
 
 /***/ 186:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -233,19 +278,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const command_1 = __webpack_require__(351);
-const file_command_1 = __webpack_require__(717);
-const utils_1 = __webpack_require__(278);
-const os = __importStar(__webpack_require__(87));
-const path = __importStar(__webpack_require__(622));
+exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
+const command_1 = __nccwpck_require__(351);
+const file_command_1 = __nccwpck_require__(717);
+const utils_1 = __nccwpck_require__(278);
+const os = __importStar(__nccwpck_require__(37));
+const path = __importStar(__nccwpck_require__(17));
+const oidc_utils_1 = __nccwpck_require__(41);
 /**
  * The code to exit an action
  */
@@ -307,7 +347,9 @@ function addPath(inputPath) {
 }
 exports.addPath = addPath;
 /**
- * Gets the value of an input.  The value is also trimmed.
+ * Gets the value of an input.
+ * Unless trimWhitespace is set to false in InputOptions, the value is also trimmed.
+ * Returns an empty string if the value is not defined.
  *
  * @param     name     name of the input to get
  * @param     options  optional. See InputOptions.
@@ -318,9 +360,49 @@ function getInput(name, options) {
     if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
     }
+    if (options && options.trimWhitespace === false) {
+        return val;
+    }
     return val.trim();
 }
 exports.getInput = getInput;
+/**
+ * Gets the values of an multiline input.  Each value is also trimmed.
+ *
+ * @param     name     name of the input to get
+ * @param     options  optional. See InputOptions.
+ * @returns   string[]
+ *
+ */
+function getMultilineInput(name, options) {
+    const inputs = getInput(name, options)
+        .split('\n')
+        .filter(x => x !== '');
+    return inputs;
+}
+exports.getMultilineInput = getMultilineInput;
+/**
+ * Gets the input value of the boolean type in the YAML 1.2 "core schema" specification.
+ * Support boolean input list: `true | True | TRUE | false | False | FALSE` .
+ * The return value is also in boolean type.
+ * ref: https://yaml.org/spec/1.2/spec.html#id2804923
+ *
+ * @param     name     name of the input to get
+ * @param     options  optional. See InputOptions.
+ * @returns   boolean
+ */
+function getBooleanInput(name, options) {
+    const trueValue = ['true', 'True', 'TRUE'];
+    const falseValue = ['false', 'False', 'FALSE'];
+    const val = getInput(name, options);
+    if (trueValue.includes(val))
+        return true;
+    if (falseValue.includes(val))
+        return false;
+    throw new TypeError(`Input does not meet YAML 1.2 "Core Schema" specification: ${name}\n` +
+        `Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
+}
+exports.getBooleanInput = getBooleanInput;
 /**
  * Sets the value of an output.
  *
@@ -376,19 +458,30 @@ exports.debug = debug;
 /**
  * Adds an error issue
  * @param message error issue message. Errors will be converted to string via toString()
+ * @param properties optional properties to add to the annotation.
  */
-function error(message) {
-    command_1.issue('error', message instanceof Error ? message.toString() : message);
+function error(message, properties = {}) {
+    command_1.issueCommand('error', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 exports.error = error;
 /**
- * Adds an warning issue
+ * Adds a warning issue
  * @param message warning issue message. Errors will be converted to string via toString()
+ * @param properties optional properties to add to the annotation.
  */
-function warning(message) {
-    command_1.issue('warning', message instanceof Error ? message.toString() : message);
+function warning(message, properties = {}) {
+    command_1.issueCommand('warning', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 exports.warning = warning;
+/**
+ * Adds a notice issue
+ * @param message notice issue message. Errors will be converted to string via toString()
+ * @param properties optional properties to add to the annotation.
+ */
+function notice(message, properties = {}) {
+    command_1.issueCommand('notice', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+}
+exports.notice = notice;
 /**
  * Writes info to log with console.log.
  * @param message info message
@@ -461,29 +554,65 @@ function getState(name) {
     return process.env[`STATE_${name}`] || '';
 }
 exports.getState = getState;
+function getIDToken(aud) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield oidc_utils_1.OidcClient.getIDToken(aud);
+    });
+}
+exports.getIDToken = getIDToken;
+/**
+ * Summary exports
+ */
+var summary_1 = __nccwpck_require__(327);
+Object.defineProperty(exports, "summary", ({ enumerable: true, get: function () { return summary_1.summary; } }));
+/**
+ * @deprecated use core.summary
+ */
+var summary_2 = __nccwpck_require__(327);
+Object.defineProperty(exports, "markdownSummary", ({ enumerable: true, get: function () { return summary_2.markdownSummary; } }));
+/**
+ * Path exports
+ */
+var path_utils_1 = __nccwpck_require__(981);
+Object.defineProperty(exports, "toPosixPath", ({ enumerable: true, get: function () { return path_utils_1.toPosixPath; } }));
+Object.defineProperty(exports, "toWin32Path", ({ enumerable: true, get: function () { return path_utils_1.toWin32Path; } }));
+Object.defineProperty(exports, "toPlatformPath", ({ enumerable: true, get: function () { return path_utils_1.toPlatformPath; } }));
 //# sourceMappingURL=core.js.map
 
 /***/ }),
 
 /***/ 717:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
 // For internal use, subject to change.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.issueCommand = void 0;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const fs = __importStar(__webpack_require__(747));
-const os = __importStar(__webpack_require__(87));
-const utils_1 = __webpack_require__(278);
+const fs = __importStar(__nccwpck_require__(147));
+const os = __importStar(__nccwpck_require__(37));
+const utils_1 = __nccwpck_require__(278);
 function issueCommand(command, message) {
     const filePath = process.env[`GITHUB_${command}`];
     if (!filePath) {
@@ -501,6 +630,445 @@ exports.issueCommand = issueCommand;
 
 /***/ }),
 
+/***/ 41:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.OidcClient = void 0;
+const http_client_1 = __nccwpck_require__(255);
+const auth_1 = __nccwpck_require__(526);
+const core_1 = __nccwpck_require__(186);
+class OidcClient {
+    static createHttpClient(allowRetry = true, maxRetry = 10) {
+        const requestOptions = {
+            allowRetries: allowRetry,
+            maxRetries: maxRetry
+        };
+        return new http_client_1.HttpClient('actions/oidc-client', [new auth_1.BearerCredentialHandler(OidcClient.getRequestToken())], requestOptions);
+    }
+    static getRequestToken() {
+        const token = process.env['ACTIONS_ID_TOKEN_REQUEST_TOKEN'];
+        if (!token) {
+            throw new Error('Unable to get ACTIONS_ID_TOKEN_REQUEST_TOKEN env variable');
+        }
+        return token;
+    }
+    static getIDTokenUrl() {
+        const runtimeUrl = process.env['ACTIONS_ID_TOKEN_REQUEST_URL'];
+        if (!runtimeUrl) {
+            throw new Error('Unable to get ACTIONS_ID_TOKEN_REQUEST_URL env variable');
+        }
+        return runtimeUrl;
+    }
+    static getCall(id_token_url) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const httpclient = OidcClient.createHttpClient();
+            const res = yield httpclient
+                .getJson(id_token_url)
+                .catch(error => {
+                throw new Error(`Failed to get ID Token. \n 
+        Error Code : ${error.statusCode}\n 
+        Error Message: ${error.result.message}`);
+            });
+            const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
+            if (!id_token) {
+                throw new Error('Response json body do not have ID Token field');
+            }
+            return id_token;
+        });
+    }
+    static getIDToken(audience) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // New ID Token is requested from action service
+                let id_token_url = OidcClient.getIDTokenUrl();
+                if (audience) {
+                    const encodedAudience = encodeURIComponent(audience);
+                    id_token_url = `${id_token_url}&audience=${encodedAudience}`;
+                }
+                core_1.debug(`ID token url is ${id_token_url}`);
+                const id_token = yield OidcClient.getCall(id_token_url);
+                core_1.setSecret(id_token);
+                return id_token;
+            }
+            catch (error) {
+                throw new Error(`Error message: ${error.message}`);
+            }
+        });
+    }
+}
+exports.OidcClient = OidcClient;
+//# sourceMappingURL=oidc-utils.js.map
+
+/***/ }),
+
+/***/ 981:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = void 0;
+const path = __importStar(__nccwpck_require__(17));
+/**
+ * toPosixPath converts the given path to the posix form. On Windows, \\ will be
+ * replaced with /.
+ *
+ * @param pth. Path to transform.
+ * @return string Posix path.
+ */
+function toPosixPath(pth) {
+    return pth.replace(/[\\]/g, '/');
+}
+exports.toPosixPath = toPosixPath;
+/**
+ * toWin32Path converts the given path to the win32 form. On Linux, / will be
+ * replaced with \\.
+ *
+ * @param pth. Path to transform.
+ * @return string Win32 path.
+ */
+function toWin32Path(pth) {
+    return pth.replace(/[/]/g, '\\');
+}
+exports.toWin32Path = toWin32Path;
+/**
+ * toPlatformPath converts the given path to a platform-specific path. It does
+ * this by replacing instances of / and \ with the platform-specific path
+ * separator.
+ *
+ * @param pth The path to platformize.
+ * @return string The platform-specific path.
+ */
+function toPlatformPath(pth) {
+    return pth.replace(/[/\\]/g, path.sep);
+}
+exports.toPlatformPath = toPlatformPath;
+//# sourceMappingURL=path-utils.js.map
+
+/***/ }),
+
+/***/ 327:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.summary = exports.markdownSummary = exports.SUMMARY_DOCS_URL = exports.SUMMARY_ENV_VAR = void 0;
+const os_1 = __nccwpck_require__(37);
+const fs_1 = __nccwpck_require__(147);
+const { access, appendFile, writeFile } = fs_1.promises;
+exports.SUMMARY_ENV_VAR = 'GITHUB_STEP_SUMMARY';
+exports.SUMMARY_DOCS_URL = 'https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary';
+class Summary {
+    constructor() {
+        this._buffer = '';
+    }
+    /**
+     * Finds the summary file path from the environment, rejects if env var is not found or file does not exist
+     * Also checks r/w permissions.
+     *
+     * @returns step summary file path
+     */
+    filePath() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this._filePath) {
+                return this._filePath;
+            }
+            const pathFromEnv = process.env[exports.SUMMARY_ENV_VAR];
+            if (!pathFromEnv) {
+                throw new Error(`Unable to find environment variable for $${exports.SUMMARY_ENV_VAR}. Check if your runtime environment supports job summaries.`);
+            }
+            try {
+                yield access(pathFromEnv, fs_1.constants.R_OK | fs_1.constants.W_OK);
+            }
+            catch (_a) {
+                throw new Error(`Unable to access summary file: '${pathFromEnv}'. Check if the file has correct read/write permissions.`);
+            }
+            this._filePath = pathFromEnv;
+            return this._filePath;
+        });
+    }
+    /**
+     * Wraps content in an HTML tag, adding any HTML attributes
+     *
+     * @param {string} tag HTML tag to wrap
+     * @param {string | null} content content within the tag
+     * @param {[attribute: string]: string} attrs key-value list of HTML attributes to add
+     *
+     * @returns {string} content wrapped in HTML element
+     */
+    wrap(tag, content, attrs = {}) {
+        const htmlAttrs = Object.entries(attrs)
+            .map(([key, value]) => ` ${key}="${value}"`)
+            .join('');
+        if (!content) {
+            return `<${tag}${htmlAttrs}>`;
+        }
+        return `<${tag}${htmlAttrs}>${content}</${tag}>`;
+    }
+    /**
+     * Writes text in the buffer to the summary buffer file and empties buffer. Will append by default.
+     *
+     * @param {SummaryWriteOptions} [options] (optional) options for write operation
+     *
+     * @returns {Promise<Summary>} summary instance
+     */
+    write(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const overwrite = !!(options === null || options === void 0 ? void 0 : options.overwrite);
+            const filePath = yield this.filePath();
+            const writeFunc = overwrite ? writeFile : appendFile;
+            yield writeFunc(filePath, this._buffer, { encoding: 'utf8' });
+            return this.emptyBuffer();
+        });
+    }
+    /**
+     * Clears the summary buffer and wipes the summary file
+     *
+     * @returns {Summary} summary instance
+     */
+    clear() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.emptyBuffer().write({ overwrite: true });
+        });
+    }
+    /**
+     * Returns the current summary buffer as a string
+     *
+     * @returns {string} string of summary buffer
+     */
+    stringify() {
+        return this._buffer;
+    }
+    /**
+     * If the summary buffer is empty
+     *
+     * @returns {boolen} true if the buffer is empty
+     */
+    isEmptyBuffer() {
+        return this._buffer.length === 0;
+    }
+    /**
+     * Resets the summary buffer without writing to summary file
+     *
+     * @returns {Summary} summary instance
+     */
+    emptyBuffer() {
+        this._buffer = '';
+        return this;
+    }
+    /**
+     * Adds raw text to the summary buffer
+     *
+     * @param {string} text content to add
+     * @param {boolean} [addEOL=false] (optional) append an EOL to the raw text (default: false)
+     *
+     * @returns {Summary} summary instance
+     */
+    addRaw(text, addEOL = false) {
+        this._buffer += text;
+        return addEOL ? this.addEOL() : this;
+    }
+    /**
+     * Adds the operating system-specific end-of-line marker to the buffer
+     *
+     * @returns {Summary} summary instance
+     */
+    addEOL() {
+        return this.addRaw(os_1.EOL);
+    }
+    /**
+     * Adds an HTML codeblock to the summary buffer
+     *
+     * @param {string} code content to render within fenced code block
+     * @param {string} lang (optional) language to syntax highlight code
+     *
+     * @returns {Summary} summary instance
+     */
+    addCodeBlock(code, lang) {
+        const attrs = Object.assign({}, (lang && { lang }));
+        const element = this.wrap('pre', this.wrap('code', code), attrs);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML list to the summary buffer
+     *
+     * @param {string[]} items list of items to render
+     * @param {boolean} [ordered=false] (optional) if the rendered list should be ordered or not (default: false)
+     *
+     * @returns {Summary} summary instance
+     */
+    addList(items, ordered = false) {
+        const tag = ordered ? 'ol' : 'ul';
+        const listItems = items.map(item => this.wrap('li', item)).join('');
+        const element = this.wrap(tag, listItems);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML table to the summary buffer
+     *
+     * @param {SummaryTableCell[]} rows table rows
+     *
+     * @returns {Summary} summary instance
+     */
+    addTable(rows) {
+        const tableBody = rows
+            .map(row => {
+            const cells = row
+                .map(cell => {
+                if (typeof cell === 'string') {
+                    return this.wrap('td', cell);
+                }
+                const { header, data, colspan, rowspan } = cell;
+                const tag = header ? 'th' : 'td';
+                const attrs = Object.assign(Object.assign({}, (colspan && { colspan })), (rowspan && { rowspan }));
+                return this.wrap(tag, data, attrs);
+            })
+                .join('');
+            return this.wrap('tr', cells);
+        })
+            .join('');
+        const element = this.wrap('table', tableBody);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds a collapsable HTML details element to the summary buffer
+     *
+     * @param {string} label text for the closed state
+     * @param {string} content collapsable content
+     *
+     * @returns {Summary} summary instance
+     */
+    addDetails(label, content) {
+        const element = this.wrap('details', this.wrap('summary', label) + content);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML image tag to the summary buffer
+     *
+     * @param {string} src path to the image you to embed
+     * @param {string} alt text description of the image
+     * @param {SummaryImageOptions} options (optional) addition image attributes
+     *
+     * @returns {Summary} summary instance
+     */
+    addImage(src, alt, options) {
+        const { width, height } = options || {};
+        const attrs = Object.assign(Object.assign({}, (width && { width })), (height && { height }));
+        const element = this.wrap('img', null, Object.assign({ src, alt }, attrs));
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML section heading element
+     *
+     * @param {string} text heading text
+     * @param {number | string} [level=1] (optional) the heading level, default: 1
+     *
+     * @returns {Summary} summary instance
+     */
+    addHeading(text, level) {
+        const tag = `h${level}`;
+        const allowedTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag)
+            ? tag
+            : 'h1';
+        const element = this.wrap(allowedTag, text);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML thematic break (<hr>) to the summary buffer
+     *
+     * @returns {Summary} summary instance
+     */
+    addSeparator() {
+        const element = this.wrap('hr', null);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML line break (<br>) to the summary buffer
+     *
+     * @returns {Summary} summary instance
+     */
+    addBreak() {
+        const element = this.wrap('br', null);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML blockquote to the summary buffer
+     *
+     * @param {string} text quote text
+     * @param {string} cite (optional) citation url
+     *
+     * @returns {Summary} summary instance
+     */
+    addQuote(text, cite) {
+        const attrs = Object.assign({}, (cite && { cite }));
+        const element = this.wrap('blockquote', text, attrs);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML anchor tag to the summary buffer
+     *
+     * @param {string} text link text/content
+     * @param {string} href hyperlink
+     *
+     * @returns {Summary} summary instance
+     */
+    addLink(text, href) {
+        const element = this.wrap('a', text, { href });
+        return this.addRaw(element).addEOL();
+    }
+}
+const _summary = new Summary();
+/**
+ * @deprecated use `core.summary`
+ */
+exports.markdownSummary = _summary;
+exports.summary = _summary;
+//# sourceMappingURL=summary.js.map
+
+/***/ }),
+
 /***/ 278:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -509,6 +1077,7 @@ exports.issueCommand = issueCommand;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.toCommandProperties = exports.toCommandValue = void 0;
 /**
  * Sanitizes an input into a string so it can be passed into issueCommand safely
  * @param input input to sanitize into a string
@@ -523,167 +1092,2972 @@ function toCommandValue(input) {
     return JSON.stringify(input);
 }
 exports.toCommandValue = toCommandValue;
+/**
+ *
+ * @param annotationProperties
+ * @returns The command properties to send with the actual annotation command
+ * See IssueCommandProperties: https://github.com/actions/runner/blob/main/src/Runner.Worker/ActionCommandManager.cs#L646
+ */
+function toCommandProperties(annotationProperties) {
+    if (!Object.keys(annotationProperties).length) {
+        return {};
+    }
+    return {
+        title: annotationProperties.title,
+        file: annotationProperties.file,
+        line: annotationProperties.startLine,
+        endLine: annotationProperties.endLine,
+        col: annotationProperties.startColumn,
+        endColumn: annotationProperties.endColumn
+    };
+}
+exports.toCommandProperties = toCommandProperties;
 //# sourceMappingURL=utils.js.map
 
 /***/ }),
 
-/***/ 127:
-/***/ ((module) => {
+/***/ 526:
+/***/ (function(__unused_webpack_module, exports) {
 
-class Change {
-    constructor(title, description = '') {
-        this.issues = [];
-        this.title = Change.extractIssues(title, this.issues);
-        this.description = Change.extractIssues(description, this.issues);
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PersonalAccessTokenCredentialHandler = exports.BearerCredentialHandler = exports.BasicCredentialHandler = void 0;
+class BasicCredentialHandler {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
     }
-
-    toString() {
-        let t = this.title.split('\n').map((line) => `  ${line}`);
-        t[0] = '-' + t[0].substr(1);
-
-        if (this.description) {
-            t.push('');
-
-            t = t.concat(this.description.split('\n').map((line) => `  ${line}`));
+    prepareRequest(options) {
+        if (!options.headers) {
+            throw Error('The request has no headers');
         }
-
-        return t.join('\n').trim();
+        options.headers['Authorization'] = `Basic ${Buffer.from(`${this.username}:${this.password}`).toString('base64')}`;
+    }
+    // This handler cannot handle 401
+    canHandleAuthentication() {
+        return false;
+    }
+    handleAuthentication() {
+        return __awaiter(this, void 0, void 0, function* () {
+            throw new Error('not implemented');
+        });
     }
 }
-
-module.exports = Change;
-
-Change.extractIssues = function (text, issues) {
-    return text
-        .replace(/(^|[^\\])\[#(\d+)\](?=[^\(]|$)/g, (matches, start, index) => {
-            if (!issues.includes(index)) {
-                issues.push(index);
-            }
-
-            return `${start}[#${index}]`;
-        })
-        .replace(/(^|[\s,])#(\d+)(?=[\s,\.]|$)/g, (matches, start, index) => {
-            if (!issues.includes(index)) {
-                issues.push(index);
-            }
-
-            return `${start}[#${index}]`;
+exports.BasicCredentialHandler = BasicCredentialHandler;
+class BearerCredentialHandler {
+    constructor(token) {
+        this.token = token;
+    }
+    // currently implements pre-authorization
+    // TODO: support preAuth = false where it hooks on 401
+    prepareRequest(options) {
+        if (!options.headers) {
+            throw Error('The request has no headers');
+        }
+        options.headers['Authorization'] = `Bearer ${this.token}`;
+    }
+    // This handler cannot handle 401
+    canHandleAuthentication() {
+        return false;
+    }
+    handleAuthentication() {
+        return __awaiter(this, void 0, void 0, function* () {
+            throw new Error('not implemented');
         });
+    }
+}
+exports.BearerCredentialHandler = BearerCredentialHandler;
+class PersonalAccessTokenCredentialHandler {
+    constructor(token) {
+        this.token = token;
+    }
+    // currently implements pre-authorization
+    // TODO: support preAuth = false where it hooks on 401
+    prepareRequest(options) {
+        if (!options.headers) {
+            throw Error('The request has no headers');
+        }
+        options.headers['Authorization'] = `Basic ${Buffer.from(`PAT:${this.token}`).toString('base64')}`;
+    }
+    // This handler cannot handle 401
+    canHandleAuthentication() {
+        return false;
+    }
+    handleAuthentication() {
+        return __awaiter(this, void 0, void 0, function* () {
+            throw new Error('not implemented');
+        });
+    }
+}
+exports.PersonalAccessTokenCredentialHandler = PersonalAccessTokenCredentialHandler;
+//# sourceMappingURL=auth.js.map
+
+/***/ }),
+
+/***/ 255:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.HttpClient = exports.isHttps = exports.HttpClientResponse = exports.HttpClientError = exports.getProxyUrl = exports.MediaTypes = exports.Headers = exports.HttpCodes = void 0;
+const http = __importStar(__nccwpck_require__(685));
+const https = __importStar(__nccwpck_require__(687));
+const pm = __importStar(__nccwpck_require__(835));
+const tunnel = __importStar(__nccwpck_require__(294));
+var HttpCodes;
+(function (HttpCodes) {
+    HttpCodes[HttpCodes["OK"] = 200] = "OK";
+    HttpCodes[HttpCodes["MultipleChoices"] = 300] = "MultipleChoices";
+    HttpCodes[HttpCodes["MovedPermanently"] = 301] = "MovedPermanently";
+    HttpCodes[HttpCodes["ResourceMoved"] = 302] = "ResourceMoved";
+    HttpCodes[HttpCodes["SeeOther"] = 303] = "SeeOther";
+    HttpCodes[HttpCodes["NotModified"] = 304] = "NotModified";
+    HttpCodes[HttpCodes["UseProxy"] = 305] = "UseProxy";
+    HttpCodes[HttpCodes["SwitchProxy"] = 306] = "SwitchProxy";
+    HttpCodes[HttpCodes["TemporaryRedirect"] = 307] = "TemporaryRedirect";
+    HttpCodes[HttpCodes["PermanentRedirect"] = 308] = "PermanentRedirect";
+    HttpCodes[HttpCodes["BadRequest"] = 400] = "BadRequest";
+    HttpCodes[HttpCodes["Unauthorized"] = 401] = "Unauthorized";
+    HttpCodes[HttpCodes["PaymentRequired"] = 402] = "PaymentRequired";
+    HttpCodes[HttpCodes["Forbidden"] = 403] = "Forbidden";
+    HttpCodes[HttpCodes["NotFound"] = 404] = "NotFound";
+    HttpCodes[HttpCodes["MethodNotAllowed"] = 405] = "MethodNotAllowed";
+    HttpCodes[HttpCodes["NotAcceptable"] = 406] = "NotAcceptable";
+    HttpCodes[HttpCodes["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
+    HttpCodes[HttpCodes["RequestTimeout"] = 408] = "RequestTimeout";
+    HttpCodes[HttpCodes["Conflict"] = 409] = "Conflict";
+    HttpCodes[HttpCodes["Gone"] = 410] = "Gone";
+    HttpCodes[HttpCodes["TooManyRequests"] = 429] = "TooManyRequests";
+    HttpCodes[HttpCodes["InternalServerError"] = 500] = "InternalServerError";
+    HttpCodes[HttpCodes["NotImplemented"] = 501] = "NotImplemented";
+    HttpCodes[HttpCodes["BadGateway"] = 502] = "BadGateway";
+    HttpCodes[HttpCodes["ServiceUnavailable"] = 503] = "ServiceUnavailable";
+    HttpCodes[HttpCodes["GatewayTimeout"] = 504] = "GatewayTimeout";
+})(HttpCodes = exports.HttpCodes || (exports.HttpCodes = {}));
+var Headers;
+(function (Headers) {
+    Headers["Accept"] = "accept";
+    Headers["ContentType"] = "content-type";
+})(Headers = exports.Headers || (exports.Headers = {}));
+var MediaTypes;
+(function (MediaTypes) {
+    MediaTypes["ApplicationJson"] = "application/json";
+})(MediaTypes = exports.MediaTypes || (exports.MediaTypes = {}));
+/**
+ * Returns the proxy URL, depending upon the supplied url and proxy environment variables.
+ * @param serverUrl  The server URL where the request will be sent. For example, https://api.github.com
+ */
+function getProxyUrl(serverUrl) {
+    const proxyUrl = pm.getProxyUrl(new URL(serverUrl));
+    return proxyUrl ? proxyUrl.href : '';
+}
+exports.getProxyUrl = getProxyUrl;
+const HttpRedirectCodes = [
+    HttpCodes.MovedPermanently,
+    HttpCodes.ResourceMoved,
+    HttpCodes.SeeOther,
+    HttpCodes.TemporaryRedirect,
+    HttpCodes.PermanentRedirect
+];
+const HttpResponseRetryCodes = [
+    HttpCodes.BadGateway,
+    HttpCodes.ServiceUnavailable,
+    HttpCodes.GatewayTimeout
+];
+const RetryableHttpVerbs = ['OPTIONS', 'GET', 'DELETE', 'HEAD'];
+const ExponentialBackoffCeiling = 10;
+const ExponentialBackoffTimeSlice = 5;
+class HttpClientError extends Error {
+    constructor(message, statusCode) {
+        super(message);
+        this.name = 'HttpClientError';
+        this.statusCode = statusCode;
+        Object.setPrototypeOf(this, HttpClientError.prototype);
+    }
+}
+exports.HttpClientError = HttpClientError;
+class HttpClientResponse {
+    constructor(message) {
+        this.message = message;
+    }
+    readBody() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+                let output = Buffer.alloc(0);
+                this.message.on('data', (chunk) => {
+                    output = Buffer.concat([output, chunk]);
+                });
+                this.message.on('end', () => {
+                    resolve(output.toString());
+                });
+            }));
+        });
+    }
+}
+exports.HttpClientResponse = HttpClientResponse;
+function isHttps(requestUrl) {
+    const parsedUrl = new URL(requestUrl);
+    return parsedUrl.protocol === 'https:';
+}
+exports.isHttps = isHttps;
+class HttpClient {
+    constructor(userAgent, handlers, requestOptions) {
+        this._ignoreSslError = false;
+        this._allowRedirects = true;
+        this._allowRedirectDowngrade = false;
+        this._maxRedirects = 50;
+        this._allowRetries = false;
+        this._maxRetries = 1;
+        this._keepAlive = false;
+        this._disposed = false;
+        this.userAgent = userAgent;
+        this.handlers = handlers || [];
+        this.requestOptions = requestOptions;
+        if (requestOptions) {
+            if (requestOptions.ignoreSslError != null) {
+                this._ignoreSslError = requestOptions.ignoreSslError;
+            }
+            this._socketTimeout = requestOptions.socketTimeout;
+            if (requestOptions.allowRedirects != null) {
+                this._allowRedirects = requestOptions.allowRedirects;
+            }
+            if (requestOptions.allowRedirectDowngrade != null) {
+                this._allowRedirectDowngrade = requestOptions.allowRedirectDowngrade;
+            }
+            if (requestOptions.maxRedirects != null) {
+                this._maxRedirects = Math.max(requestOptions.maxRedirects, 0);
+            }
+            if (requestOptions.keepAlive != null) {
+                this._keepAlive = requestOptions.keepAlive;
+            }
+            if (requestOptions.allowRetries != null) {
+                this._allowRetries = requestOptions.allowRetries;
+            }
+            if (requestOptions.maxRetries != null) {
+                this._maxRetries = requestOptions.maxRetries;
+            }
+        }
+    }
+    options(requestUrl, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('OPTIONS', requestUrl, null, additionalHeaders || {});
+        });
+    }
+    get(requestUrl, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('GET', requestUrl, null, additionalHeaders || {});
+        });
+    }
+    del(requestUrl, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('DELETE', requestUrl, null, additionalHeaders || {});
+        });
+    }
+    post(requestUrl, data, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('POST', requestUrl, data, additionalHeaders || {});
+        });
+    }
+    patch(requestUrl, data, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('PATCH', requestUrl, data, additionalHeaders || {});
+        });
+    }
+    put(requestUrl, data, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('PUT', requestUrl, data, additionalHeaders || {});
+        });
+    }
+    head(requestUrl, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('HEAD', requestUrl, null, additionalHeaders || {});
+        });
+    }
+    sendStream(verb, requestUrl, stream, additionalHeaders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request(verb, requestUrl, stream, additionalHeaders);
+        });
+    }
+    /**
+     * Gets a typed object from an endpoint
+     * Be aware that not found returns a null.  Other errors (4xx, 5xx) reject the promise
+     */
+    getJson(requestUrl, additionalHeaders = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
+            const res = yield this.get(requestUrl, additionalHeaders);
+            return this._processResponse(res, this.requestOptions);
+        });
+    }
+    postJson(requestUrl, obj, additionalHeaders = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = JSON.stringify(obj, null, 2);
+            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
+            additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
+            const res = yield this.post(requestUrl, data, additionalHeaders);
+            return this._processResponse(res, this.requestOptions);
+        });
+    }
+    putJson(requestUrl, obj, additionalHeaders = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = JSON.stringify(obj, null, 2);
+            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
+            additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
+            const res = yield this.put(requestUrl, data, additionalHeaders);
+            return this._processResponse(res, this.requestOptions);
+        });
+    }
+    patchJson(requestUrl, obj, additionalHeaders = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = JSON.stringify(obj, null, 2);
+            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
+            additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
+            const res = yield this.patch(requestUrl, data, additionalHeaders);
+            return this._processResponse(res, this.requestOptions);
+        });
+    }
+    /**
+     * Makes a raw http request.
+     * All other methods such as get, post, patch, and request ultimately call this.
+     * Prefer get, del, post and patch
+     */
+    request(verb, requestUrl, data, headers) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this._disposed) {
+                throw new Error('Client has already been disposed.');
+            }
+            const parsedUrl = new URL(requestUrl);
+            let info = this._prepareRequest(verb, parsedUrl, headers);
+            // Only perform retries on reads since writes may not be idempotent.
+            const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb)
+                ? this._maxRetries + 1
+                : 1;
+            let numTries = 0;
+            let response;
+            do {
+                response = yield this.requestRaw(info, data);
+                // Check if it's an authentication challenge
+                if (response &&
+                    response.message &&
+                    response.message.statusCode === HttpCodes.Unauthorized) {
+                    let authenticationHandler;
+                    for (const handler of this.handlers) {
+                        if (handler.canHandleAuthentication(response)) {
+                            authenticationHandler = handler;
+                            break;
+                        }
+                    }
+                    if (authenticationHandler) {
+                        return authenticationHandler.handleAuthentication(this, info, data);
+                    }
+                    else {
+                        // We have received an unauthorized response but have no handlers to handle it.
+                        // Let the response return to the caller.
+                        return response;
+                    }
+                }
+                let redirectsRemaining = this._maxRedirects;
+                while (response.message.statusCode &&
+                    HttpRedirectCodes.includes(response.message.statusCode) &&
+                    this._allowRedirects &&
+                    redirectsRemaining > 0) {
+                    const redirectUrl = response.message.headers['location'];
+                    if (!redirectUrl) {
+                        // if there's no location to redirect to, we won't
+                        break;
+                    }
+                    const parsedRedirectUrl = new URL(redirectUrl);
+                    if (parsedUrl.protocol === 'https:' &&
+                        parsedUrl.protocol !== parsedRedirectUrl.protocol &&
+                        !this._allowRedirectDowngrade) {
+                        throw new Error('Redirect from HTTPS to HTTP protocol. This downgrade is not allowed for security reasons. If you want to allow this behavior, set the allowRedirectDowngrade option to true.');
+                    }
+                    // we need to finish reading the response before reassigning response
+                    // which will leak the open socket.
+                    yield response.readBody();
+                    // strip authorization header if redirected to a different hostname
+                    if (parsedRedirectUrl.hostname !== parsedUrl.hostname) {
+                        for (const header in headers) {
+                            // header names are case insensitive
+                            if (header.toLowerCase() === 'authorization') {
+                                delete headers[header];
+                            }
+                        }
+                    }
+                    // let's make the request with the new redirectUrl
+                    info = this._prepareRequest(verb, parsedRedirectUrl, headers);
+                    response = yield this.requestRaw(info, data);
+                    redirectsRemaining--;
+                }
+                if (!response.message.statusCode ||
+                    !HttpResponseRetryCodes.includes(response.message.statusCode)) {
+                    // If not a retry code, return immediately instead of retrying
+                    return response;
+                }
+                numTries += 1;
+                if (numTries < maxTries) {
+                    yield response.readBody();
+                    yield this._performExponentialBackoff(numTries);
+                }
+            } while (numTries < maxTries);
+            return response;
+        });
+    }
+    /**
+     * Needs to be called if keepAlive is set to true in request options.
+     */
+    dispose() {
+        if (this._agent) {
+            this._agent.destroy();
+        }
+        this._disposed = true;
+    }
+    /**
+     * Raw request.
+     * @param info
+     * @param data
+     */
+    requestRaw(info, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                function callbackForResult(err, res) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else if (!res) {
+                        // If `err` is not passed, then `res` must be passed.
+                        reject(new Error('Unknown error'));
+                    }
+                    else {
+                        resolve(res);
+                    }
+                }
+                this.requestRawWithCallback(info, data, callbackForResult);
+            });
+        });
+    }
+    /**
+     * Raw request with callback.
+     * @param info
+     * @param data
+     * @param onResult
+     */
+    requestRawWithCallback(info, data, onResult) {
+        if (typeof data === 'string') {
+            if (!info.options.headers) {
+                info.options.headers = {};
+            }
+            info.options.headers['Content-Length'] = Buffer.byteLength(data, 'utf8');
+        }
+        let callbackCalled = false;
+        function handleResult(err, res) {
+            if (!callbackCalled) {
+                callbackCalled = true;
+                onResult(err, res);
+            }
+        }
+        const req = info.httpModule.request(info.options, (msg) => {
+            const res = new HttpClientResponse(msg);
+            handleResult(undefined, res);
+        });
+        let socket;
+        req.on('socket', sock => {
+            socket = sock;
+        });
+        // If we ever get disconnected, we want the socket to timeout eventually
+        req.setTimeout(this._socketTimeout || 3 * 60000, () => {
+            if (socket) {
+                socket.end();
+            }
+            handleResult(new Error(`Request timeout: ${info.options.path}`));
+        });
+        req.on('error', function (err) {
+            // err has statusCode property
+            // res should have headers
+            handleResult(err);
+        });
+        if (data && typeof data === 'string') {
+            req.write(data, 'utf8');
+        }
+        if (data && typeof data !== 'string') {
+            data.on('close', function () {
+                req.end();
+            });
+            data.pipe(req);
+        }
+        else {
+            req.end();
+        }
+    }
+    /**
+     * Gets an http agent. This function is useful when you need an http agent that handles
+     * routing through a proxy server - depending upon the url and proxy environment variables.
+     * @param serverUrl  The server URL where the request will be sent. For example, https://api.github.com
+     */
+    getAgent(serverUrl) {
+        const parsedUrl = new URL(serverUrl);
+        return this._getAgent(parsedUrl);
+    }
+    _prepareRequest(method, requestUrl, headers) {
+        const info = {};
+        info.parsedUrl = requestUrl;
+        const usingSsl = info.parsedUrl.protocol === 'https:';
+        info.httpModule = usingSsl ? https : http;
+        const defaultPort = usingSsl ? 443 : 80;
+        info.options = {};
+        info.options.host = info.parsedUrl.hostname;
+        info.options.port = info.parsedUrl.port
+            ? parseInt(info.parsedUrl.port)
+            : defaultPort;
+        info.options.path =
+            (info.parsedUrl.pathname || '') + (info.parsedUrl.search || '');
+        info.options.method = method;
+        info.options.headers = this._mergeHeaders(headers);
+        if (this.userAgent != null) {
+            info.options.headers['user-agent'] = this.userAgent;
+        }
+        info.options.agent = this._getAgent(info.parsedUrl);
+        // gives handlers an opportunity to participate
+        if (this.handlers) {
+            for (const handler of this.handlers) {
+                handler.prepareRequest(info.options);
+            }
+        }
+        return info;
+    }
+    _mergeHeaders(headers) {
+        if (this.requestOptions && this.requestOptions.headers) {
+            return Object.assign({}, lowercaseKeys(this.requestOptions.headers), lowercaseKeys(headers || {}));
+        }
+        return lowercaseKeys(headers || {});
+    }
+    _getExistingOrDefaultHeader(additionalHeaders, header, _default) {
+        let clientHeader;
+        if (this.requestOptions && this.requestOptions.headers) {
+            clientHeader = lowercaseKeys(this.requestOptions.headers)[header];
+        }
+        return additionalHeaders[header] || clientHeader || _default;
+    }
+    _getAgent(parsedUrl) {
+        let agent;
+        const proxyUrl = pm.getProxyUrl(parsedUrl);
+        const useProxy = proxyUrl && proxyUrl.hostname;
+        if (this._keepAlive && useProxy) {
+            agent = this._proxyAgent;
+        }
+        if (this._keepAlive && !useProxy) {
+            agent = this._agent;
+        }
+        // if agent is already assigned use that agent.
+        if (agent) {
+            return agent;
+        }
+        const usingSsl = parsedUrl.protocol === 'https:';
+        let maxSockets = 100;
+        if (this.requestOptions) {
+            maxSockets = this.requestOptions.maxSockets || http.globalAgent.maxSockets;
+        }
+        // This is `useProxy` again, but we need to check `proxyURl` directly for TypeScripts's flow analysis.
+        if (proxyUrl && proxyUrl.hostname) {
+            const agentOptions = {
+                maxSockets,
+                keepAlive: this._keepAlive,
+                proxy: Object.assign(Object.assign({}, ((proxyUrl.username || proxyUrl.password) && {
+                    proxyAuth: `${proxyUrl.username}:${proxyUrl.password}`
+                })), { host: proxyUrl.hostname, port: proxyUrl.port })
+            };
+            let tunnelAgent;
+            const overHttps = proxyUrl.protocol === 'https:';
+            if (usingSsl) {
+                tunnelAgent = overHttps ? tunnel.httpsOverHttps : tunnel.httpsOverHttp;
+            }
+            else {
+                tunnelAgent = overHttps ? tunnel.httpOverHttps : tunnel.httpOverHttp;
+            }
+            agent = tunnelAgent(agentOptions);
+            this._proxyAgent = agent;
+        }
+        // if reusing agent across request and tunneling agent isn't assigned create a new agent
+        if (this._keepAlive && !agent) {
+            const options = { keepAlive: this._keepAlive, maxSockets };
+            agent = usingSsl ? new https.Agent(options) : new http.Agent(options);
+            this._agent = agent;
+        }
+        // if not using private agent and tunnel agent isn't setup then use global agent
+        if (!agent) {
+            agent = usingSsl ? https.globalAgent : http.globalAgent;
+        }
+        if (usingSsl && this._ignoreSslError) {
+            // we don't want to set NODE_TLS_REJECT_UNAUTHORIZED=0 since that will affect request for entire process
+            // http.RequestOptions doesn't expose a way to modify RequestOptions.agent.options
+            // we have to cast it to any and change it directly
+            agent.options = Object.assign(agent.options || {}, {
+                rejectUnauthorized: false
+            });
+        }
+        return agent;
+    }
+    _performExponentialBackoff(retryNumber) {
+        return __awaiter(this, void 0, void 0, function* () {
+            retryNumber = Math.min(ExponentialBackoffCeiling, retryNumber);
+            const ms = ExponentialBackoffTimeSlice * Math.pow(2, retryNumber);
+            return new Promise(resolve => setTimeout(() => resolve(), ms));
+        });
+    }
+    _processResponse(res, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                const statusCode = res.message.statusCode || 0;
+                const response = {
+                    statusCode,
+                    result: null,
+                    headers: {}
+                };
+                // not found leads to null obj returned
+                if (statusCode === HttpCodes.NotFound) {
+                    resolve(response);
+                }
+                // get the result from the body
+                function dateTimeDeserializer(key, value) {
+                    if (typeof value === 'string') {
+                        const a = new Date(value);
+                        if (!isNaN(a.valueOf())) {
+                            return a;
+                        }
+                    }
+                    return value;
+                }
+                let obj;
+                let contents;
+                try {
+                    contents = yield res.readBody();
+                    if (contents && contents.length > 0) {
+                        if (options && options.deserializeDates) {
+                            obj = JSON.parse(contents, dateTimeDeserializer);
+                        }
+                        else {
+                            obj = JSON.parse(contents);
+                        }
+                        response.result = obj;
+                    }
+                    response.headers = res.message.headers;
+                }
+                catch (err) {
+                    // Invalid resource (contents not json);  leaving result obj null
+                }
+                // note that 3xx redirects are handled by the http layer.
+                if (statusCode > 299) {
+                    let msg;
+                    // if exception/error in body, attempt to get better error
+                    if (obj && obj.message) {
+                        msg = obj.message;
+                    }
+                    else if (contents && contents.length > 0) {
+                        // it may be the case that the exception is in the body message as string
+                        msg = contents;
+                    }
+                    else {
+                        msg = `Failed request: (${statusCode})`;
+                    }
+                    const err = new HttpClientError(msg, statusCode);
+                    err.result = response.result;
+                    reject(err);
+                }
+                else {
+                    resolve(response);
+                }
+            }));
+        });
+    }
+}
+exports.HttpClient = HttpClient;
+const lowercaseKeys = (obj) => Object.keys(obj).reduce((c, k) => ((c[k.toLowerCase()] = obj[k]), c), {});
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 835:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.checkBypass = exports.getProxyUrl = void 0;
+function getProxyUrl(reqUrl) {
+    const usingSsl = reqUrl.protocol === 'https:';
+    if (checkBypass(reqUrl)) {
+        return undefined;
+    }
+    const proxyVar = (() => {
+        if (usingSsl) {
+            return process.env['https_proxy'] || process.env['HTTPS_PROXY'];
+        }
+        else {
+            return process.env['http_proxy'] || process.env['HTTP_PROXY'];
+        }
+    })();
+    if (proxyVar) {
+        return new URL(proxyVar);
+    }
+    else {
+        return undefined;
+    }
+}
+exports.getProxyUrl = getProxyUrl;
+function checkBypass(reqUrl) {
+    if (!reqUrl.hostname) {
+        return false;
+    }
+    const noProxy = process.env['no_proxy'] || process.env['NO_PROXY'] || '';
+    if (!noProxy) {
+        return false;
+    }
+    // Determine the request port
+    let reqPort;
+    if (reqUrl.port) {
+        reqPort = Number(reqUrl.port);
+    }
+    else if (reqUrl.protocol === 'http:') {
+        reqPort = 80;
+    }
+    else if (reqUrl.protocol === 'https:') {
+        reqPort = 443;
+    }
+    // Format the request hostname and hostname with port
+    const upperReqHosts = [reqUrl.hostname.toUpperCase()];
+    if (typeof reqPort === 'number') {
+        upperReqHosts.push(`${upperReqHosts[0]}:${reqPort}`);
+    }
+    // Compare request host against noproxy
+    for (const upperNoProxyItem of noProxy
+        .split(',')
+        .map(x => x.trim().toUpperCase())
+        .filter(x => x)) {
+        if (upperReqHosts.some(x => x === upperNoProxyItem)) {
+            return true;
+        }
+    }
+    return false;
+}
+exports.checkBypass = checkBypass;
+//# sourceMappingURL=proxy.js.map
+
+/***/ }),
+
+/***/ 294:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+module.exports = __nccwpck_require__(219);
 
 
 /***/ }),
 
-/***/ 669:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ 219:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
-const Release = __webpack_require__(421);
-const eq = __webpack_require__(898);
+"use strict";
 
-class Changelog {
-    constructor(title, description = '') {
-        this.title = title;
-        this.description = description;
-        this.head = 'HEAD';
-        this.footer = null;
-        this.url = null;
-        this.releases = [];
-        this.tagNameBuilder = null;
+
+var net = __nccwpck_require__(808);
+var tls = __nccwpck_require__(404);
+var http = __nccwpck_require__(685);
+var https = __nccwpck_require__(687);
+var events = __nccwpck_require__(361);
+var assert = __nccwpck_require__(491);
+var util = __nccwpck_require__(837);
+
+
+exports.httpOverHttp = httpOverHttp;
+exports.httpsOverHttp = httpsOverHttp;
+exports.httpOverHttps = httpOverHttps;
+exports.httpsOverHttps = httpsOverHttps;
+
+
+function httpOverHttp(options) {
+  var agent = new TunnelingAgent(options);
+  agent.request = http.request;
+  return agent;
+}
+
+function httpsOverHttp(options) {
+  var agent = new TunnelingAgent(options);
+  agent.request = http.request;
+  agent.createSocket = createSecureSocket;
+  agent.defaultPort = 443;
+  return agent;
+}
+
+function httpOverHttps(options) {
+  var agent = new TunnelingAgent(options);
+  agent.request = https.request;
+  return agent;
+}
+
+function httpsOverHttps(options) {
+  var agent = new TunnelingAgent(options);
+  agent.request = https.request;
+  agent.createSocket = createSecureSocket;
+  agent.defaultPort = 443;
+  return agent;
+}
+
+
+function TunnelingAgent(options) {
+  var self = this;
+  self.options = options || {};
+  self.proxyOptions = self.options.proxy || {};
+  self.maxSockets = self.options.maxSockets || http.Agent.defaultMaxSockets;
+  self.requests = [];
+  self.sockets = [];
+
+  self.on('free', function onFree(socket, host, port, localAddress) {
+    var options = toOptions(host, port, localAddress);
+    for (var i = 0, len = self.requests.length; i < len; ++i) {
+      var pending = self.requests[i];
+      if (pending.host === options.host && pending.port === options.port) {
+        // Detect the request to connect same origin server,
+        // reuse the connection.
+        self.requests.splice(i, 1);
+        pending.request.onSocket(socket);
+        return;
+      }
+    }
+    socket.destroy();
+    self.removeSocket(socket);
+  });
+}
+util.inherits(TunnelingAgent, events.EventEmitter);
+
+TunnelingAgent.prototype.addRequest = function addRequest(req, host, port, localAddress) {
+  var self = this;
+  var options = mergeOptions({request: req}, self.options, toOptions(host, port, localAddress));
+
+  if (self.sockets.length >= this.maxSockets) {
+    // We are over limit so we'll add it to the queue.
+    self.requests.push(options);
+    return;
+  }
+
+  // If we are under maxSockets create a new one.
+  self.createSocket(options, function(socket) {
+    socket.on('free', onFree);
+    socket.on('close', onCloseOrRemove);
+    socket.on('agentRemove', onCloseOrRemove);
+    req.onSocket(socket);
+
+    function onFree() {
+      self.emit('free', socket, options);
     }
 
-    addRelease(release) {
-        if (!(release instanceof Release)) {
-            throw new Error('Invalid release. Must be an instance of Release');
-        }
+    function onCloseOrRemove(err) {
+      self.removeSocket(socket);
+      socket.removeListener('free', onFree);
+      socket.removeListener('close', onCloseOrRemove);
+      socket.removeListener('agentRemove', onCloseOrRemove);
+    }
+  });
+};
 
+TunnelingAgent.prototype.createSocket = function createSocket(options, cb) {
+  var self = this;
+  var placeholder = {};
+  self.sockets.push(placeholder);
+
+  var connectOptions = mergeOptions({}, self.proxyOptions, {
+    method: 'CONNECT',
+    path: options.host + ':' + options.port,
+    agent: false,
+    headers: {
+      host: options.host + ':' + options.port
+    }
+  });
+  if (options.localAddress) {
+    connectOptions.localAddress = options.localAddress;
+  }
+  if (connectOptions.proxyAuth) {
+    connectOptions.headers = connectOptions.headers || {};
+    connectOptions.headers['Proxy-Authorization'] = 'Basic ' +
+        new Buffer(connectOptions.proxyAuth).toString('base64');
+  }
+
+  debug('making CONNECT request');
+  var connectReq = self.request(connectOptions);
+  connectReq.useChunkedEncodingByDefault = false; // for v0.6
+  connectReq.once('response', onResponse); // for v0.6
+  connectReq.once('upgrade', onUpgrade);   // for v0.6
+  connectReq.once('connect', onConnect);   // for v0.7 or later
+  connectReq.once('error', onError);
+  connectReq.end();
+
+  function onResponse(res) {
+    // Very hacky. This is necessary to avoid http-parser leaks.
+    res.upgrade = true;
+  }
+
+  function onUpgrade(res, socket, head) {
+    // Hacky.
+    process.nextTick(function() {
+      onConnect(res, socket, head);
+    });
+  }
+
+  function onConnect(res, socket, head) {
+    connectReq.removeAllListeners();
+    socket.removeAllListeners();
+
+    if (res.statusCode !== 200) {
+      debug('tunneling socket could not be established, statusCode=%d',
+        res.statusCode);
+      socket.destroy();
+      var error = new Error('tunneling socket could not be established, ' +
+        'statusCode=' + res.statusCode);
+      error.code = 'ECONNRESET';
+      options.request.emit('error', error);
+      self.removeSocket(placeholder);
+      return;
+    }
+    if (head.length > 0) {
+      debug('got illegal response body from proxy');
+      socket.destroy();
+      var error = new Error('got illegal response body from proxy');
+      error.code = 'ECONNRESET';
+      options.request.emit('error', error);
+      self.removeSocket(placeholder);
+      return;
+    }
+    debug('tunneling connection has established');
+    self.sockets[self.sockets.indexOf(placeholder)] = socket;
+    return cb(socket);
+  }
+
+  function onError(cause) {
+    connectReq.removeAllListeners();
+
+    debug('tunneling socket could not be established, cause=%s\n',
+          cause.message, cause.stack);
+    var error = new Error('tunneling socket could not be established, ' +
+                          'cause=' + cause.message);
+    error.code = 'ECONNRESET';
+    options.request.emit('error', error);
+    self.removeSocket(placeholder);
+  }
+};
+
+TunnelingAgent.prototype.removeSocket = function removeSocket(socket) {
+  var pos = this.sockets.indexOf(socket)
+  if (pos === -1) {
+    return;
+  }
+  this.sockets.splice(pos, 1);
+
+  var pending = this.requests.shift();
+  if (pending) {
+    // If we have pending requests and a socket gets closed a new one
+    // needs to be created to take over in the pool for the one that closed.
+    this.createSocket(pending, function(socket) {
+      pending.request.onSocket(socket);
+    });
+  }
+};
+
+function createSecureSocket(options, cb) {
+  var self = this;
+  TunnelingAgent.prototype.createSocket.call(self, options, function(socket) {
+    var hostHeader = options.request.getHeader('host');
+    var tlsOptions = mergeOptions({}, self.options, {
+      socket: socket,
+      servername: hostHeader ? hostHeader.replace(/:.*$/, '') : options.host
+    });
+
+    // 0 is dummy port for v0.6
+    var secureSocket = tls.connect(0, tlsOptions);
+    self.sockets[self.sockets.indexOf(socket)] = secureSocket;
+    cb(secureSocket);
+  });
+}
+
+
+function toOptions(host, port, localAddress) {
+  if (typeof host === 'string') { // since v0.10
+    return {
+      host: host,
+      port: port,
+      localAddress: localAddress
+    };
+  }
+  return host; // for v0.11 or later
+}
+
+function mergeOptions(target) {
+  for (var i = 1, len = arguments.length; i < len; ++i) {
+    var overrides = arguments[i];
+    if (typeof overrides === 'object') {
+      var keys = Object.keys(overrides);
+      for (var j = 0, keyLen = keys.length; j < keyLen; ++j) {
+        var k = keys[j];
+        if (overrides[k] !== undefined) {
+          target[k] = overrides[k];
+        }
+      }
+    }
+  }
+  return target;
+}
+
+
+var debug;
+if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) {
+  debug = function() {
+    var args = Array.prototype.slice.call(arguments);
+    if (typeof args[0] === 'string') {
+      args[0] = 'TUNNEL: ' + args[0];
+    } else {
+      args.unshift('TUNNEL:');
+    }
+    console.error.apply(console, args);
+  }
+} else {
+  debug = function() {};
+}
+exports.debug = debug; // for test
+
+
+/***/ }),
+
+/***/ 491:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("assert");
+
+/***/ }),
+
+/***/ 361:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("events");
+
+/***/ }),
+
+/***/ 147:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 685:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("http");
+
+/***/ }),
+
+/***/ 687:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("https");
+
+/***/ }),
+
+/***/ 808:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("net");
+
+/***/ }),
+
+/***/ 37:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 17:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 404:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("tls");
+
+/***/ }),
+
+/***/ 837:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 381:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+// https://github.com/tc39/proposal-accessible-object-hasownproperty/blob/main/polyfill.js
+if (!Object.hasOwn) {
+    Object.defineProperty(Object, "hasOwn", {
+        value: function (object, property) {
+            if (object == null) {
+                throw new TypeError("Cannot convert undefined or null to object");
+            }
+            return Object.prototype.hasOwnProperty.call(Object(object), property);
+        },
+        configurable: true,
+        enumerable: false,
+        writable: true,
+    });
+}
+
+
+/***/ }),
+
+/***/ 293:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.coerce = exports.intersects = exports.prerelease = exports.outside = exports.gtr = exports.ltr = exports.validRange = exports.minVersion = exports.minSatisfying = exports.maxSatisfying = exports.satisfies = exports.toComparators = exports.Range = exports.Comparator = exports.cmp = exports.lte = exports.gte = exports.neq = exports.eq = exports.lt = exports.gt = exports.rsort = exports.sort = exports.rcompare = exports.compareBuild = exports.compareLoose = exports.compare = exports.patch = exports.minor = exports.major = exports.rcompareIdentifiers = exports.compareIdentifiers = exports.diff = exports.inc = exports.SemVer = exports.clean = exports.valid = exports.parse = exports.SEMVER_SPEC_VERSION = void 0;
+// Note: this is the semver.org version of the spec that it implements
+// Not necessarily the package version of this code.
+exports.SEMVER_SPEC_VERSION = "2.0.0";
+const MAX_LENGTH = 256;
+// Max safe segment length for coercion.
+const MAX_SAFE_COMPONENT_LENGTH = 16;
+// The actual regexps
+const re = [];
+const src = [];
+let R = 0;
+// The following Regular Expressions can be used for tokenizing,
+// validating, and parsing SemVer version strings.
+// ## Numeric Identifier
+// A single `0`, or a non-zero digit followed by zero or more digits.
+const NUMERICIDENTIFIER = R++;
+src[NUMERICIDENTIFIER] = "0|[1-9]\\d*";
+const NUMERICIDENTIFIERLOOSE = R++;
+src[NUMERICIDENTIFIERLOOSE] = "[0-9]+";
+// ## Non-numeric Identifier
+// Zero or more digits, followed by a letter or hyphen, and then zero or
+// more letters, digits, or hyphens.
+const NONNUMERICIDENTIFIER = R++;
+src[NONNUMERICIDENTIFIER] = "\\d*[a-zA-Z-][a-zA-Z0-9-]*";
+// ## Main Version
+// Three dot-separated numeric identifiers.
+const MAINVERSION = R++;
+const nid = src[NUMERICIDENTIFIER];
+src[MAINVERSION] = `(${nid})\\.(${nid})\\.(${nid})`;
+const MAINVERSIONLOOSE = R++;
+const nidl = src[NUMERICIDENTIFIERLOOSE];
+src[MAINVERSIONLOOSE] = `(${nidl})\\.(${nidl})\\.(${nidl})`;
+// ## Pre-release Version Identifier
+// A numeric identifier, or a non-numeric identifier.
+const PRERELEASEIDENTIFIER = R++;
+src[PRERELEASEIDENTIFIER] = "(?:" + src[NUMERICIDENTIFIER] + "|" +
+    src[NONNUMERICIDENTIFIER] + ")";
+const PRERELEASEIDENTIFIERLOOSE = R++;
+src[PRERELEASEIDENTIFIERLOOSE] = "(?:" + src[NUMERICIDENTIFIERLOOSE] + "|" +
+    src[NONNUMERICIDENTIFIER] + ")";
+// ## Pre-release Version
+// Hyphen, followed by one or more dot-separated pre-release version
+// identifiers.
+const PRERELEASE = R++;
+src[PRERELEASE] = "(?:-(" +
+    src[PRERELEASEIDENTIFIER] +
+    "(?:\\." +
+    src[PRERELEASEIDENTIFIER] +
+    ")*))";
+const PRERELEASELOOSE = R++;
+src[PRERELEASELOOSE] = "(?:-?(" +
+    src[PRERELEASEIDENTIFIERLOOSE] +
+    "(?:\\." +
+    src[PRERELEASEIDENTIFIERLOOSE] +
+    ")*))";
+// ## Build Metadata Identifier
+// Any combination of digits, letters, or hyphens.
+const BUILDIDENTIFIER = R++;
+src[BUILDIDENTIFIER] = "[0-9A-Za-z-]+";
+// ## Build Metadata
+// Plus sign, followed by one or more period-separated build metadata
+// identifiers.
+const BUILD = R++;
+src[BUILD] = "(?:\\+(" + src[BUILDIDENTIFIER] + "(?:\\." +
+    src[BUILDIDENTIFIER] + ")*))";
+// ## Full Version String
+// A main version, followed optionally by a pre-release version and
+// build metadata.
+// Note that the only major, minor, patch, and pre-release sections of
+// the version string are capturing groups.  The build metadata is not a
+// capturing group, because it should not ever be used in version
+// comparison.
+const FULL = R++;
+const FULLPLAIN = "v?" + src[MAINVERSION] + src[PRERELEASE] + "?" + src[BUILD] +
+    "?";
+src[FULL] = "^" + FULLPLAIN + "$";
+// like full, but allows v1.2.3 and =1.2.3, which people do sometimes.
+// also, 1.0.0alpha1 (prerelease without the hyphen) which is pretty
+// common in the npm registry.
+const LOOSEPLAIN = "[v=\\s]*" +
+    src[MAINVERSIONLOOSE] +
+    src[PRERELEASELOOSE] +
+    "?" +
+    src[BUILD] +
+    "?";
+const LOOSE = R++;
+src[LOOSE] = "^" + LOOSEPLAIN + "$";
+const GTLT = R++;
+src[GTLT] = "((?:<|>)?=?)";
+// Something like "2.*" or "1.2.x".
+// Note that "x.x" is a valid xRange identifer, meaning "any version"
+// Only the first item is strictly required.
+const XRANGEIDENTIFIERLOOSE = R++;
+src[XRANGEIDENTIFIERLOOSE] = src[NUMERICIDENTIFIERLOOSE] + "|x|X|\\*";
+const XRANGEIDENTIFIER = R++;
+src[XRANGEIDENTIFIER] = src[NUMERICIDENTIFIER] + "|x|X|\\*";
+const XRANGEPLAIN = R++;
+src[XRANGEPLAIN] = "[v=\\s]*(" +
+    src[XRANGEIDENTIFIER] +
+    ")" +
+    "(?:\\.(" +
+    src[XRANGEIDENTIFIER] +
+    ")" +
+    "(?:\\.(" +
+    src[XRANGEIDENTIFIER] +
+    ")" +
+    "(?:" +
+    src[PRERELEASE] +
+    ")?" +
+    src[BUILD] +
+    "?" +
+    ")?)?";
+const XRANGEPLAINLOOSE = R++;
+src[XRANGEPLAINLOOSE] = "[v=\\s]*(" +
+    src[XRANGEIDENTIFIERLOOSE] +
+    ")" +
+    "(?:\\.(" +
+    src[XRANGEIDENTIFIERLOOSE] +
+    ")" +
+    "(?:\\.(" +
+    src[XRANGEIDENTIFIERLOOSE] +
+    ")" +
+    "(?:" +
+    src[PRERELEASELOOSE] +
+    ")?" +
+    src[BUILD] +
+    "?" +
+    ")?)?";
+const XRANGE = R++;
+src[XRANGE] = "^" + src[GTLT] + "\\s*" + src[XRANGEPLAIN] + "$";
+const XRANGELOOSE = R++;
+src[XRANGELOOSE] = "^" + src[GTLT] + "\\s*" + src[XRANGEPLAINLOOSE] + "$";
+// Coercion.
+// Extract anything that could conceivably be a part of a valid semver
+const COERCE = R++;
+src[COERCE] = "(?:^|[^\\d])" +
+    "(\\d{1," +
+    MAX_SAFE_COMPONENT_LENGTH +
+    "})" +
+    "(?:\\.(\\d{1," +
+    MAX_SAFE_COMPONENT_LENGTH +
+    "}))?" +
+    "(?:\\.(\\d{1," +
+    MAX_SAFE_COMPONENT_LENGTH +
+    "}))?" +
+    "(?:$|[^\\d])";
+// Tilde ranges.
+// Meaning is "reasonably at or greater than"
+const LONETILDE = R++;
+src[LONETILDE] = "(?:~>?)";
+const TILDETRIM = R++;
+src[TILDETRIM] = "(\\s*)" + src[LONETILDE] + "\\s+";
+re[TILDETRIM] = new RegExp(src[TILDETRIM], "g");
+const tildeTrimReplace = "$1~";
+const TILDE = R++;
+src[TILDE] = "^" + src[LONETILDE] + src[XRANGEPLAIN] + "$";
+const TILDELOOSE = R++;
+src[TILDELOOSE] = "^" + src[LONETILDE] + src[XRANGEPLAINLOOSE] + "$";
+// Caret ranges.
+// Meaning is "at least and backwards compatible with"
+const LONECARET = R++;
+src[LONECARET] = "(?:\\^)";
+const CARETTRIM = R++;
+src[CARETTRIM] = "(\\s*)" + src[LONECARET] + "\\s+";
+re[CARETTRIM] = new RegExp(src[CARETTRIM], "g");
+const caretTrimReplace = "$1^";
+const CARET = R++;
+src[CARET] = "^" + src[LONECARET] + src[XRANGEPLAIN] + "$";
+const CARETLOOSE = R++;
+src[CARETLOOSE] = "^" + src[LONECARET] + src[XRANGEPLAINLOOSE] + "$";
+// A simple gt/lt/eq thing, or just "" to indicate "any version"
+const COMPARATORLOOSE = R++;
+src[COMPARATORLOOSE] = "^" + src[GTLT] + "\\s*(" + LOOSEPLAIN + ")$|^$";
+const COMPARATOR = R++;
+src[COMPARATOR] = "^" + src[GTLT] + "\\s*(" + FULLPLAIN + ")$|^$";
+// An expression to strip any whitespace between the gtlt and the thing
+// it modifies, so that `> 1.2.3` ==> `>1.2.3`
+const COMPARATORTRIM = R++;
+src[COMPARATORTRIM] = "(\\s*)" + src[GTLT] + "\\s*(" + LOOSEPLAIN + "|" +
+    src[XRANGEPLAIN] + ")";
+// this one has to use the /g flag
+re[COMPARATORTRIM] = new RegExp(src[COMPARATORTRIM], "g");
+const comparatorTrimReplace = "$1$2$3";
+// Something like `1.2.3 - 1.2.4`
+// Note that these all use the loose form, because they'll be
+// checked against either the strict or loose comparator form
+// later.
+const HYPHENRANGE = R++;
+src[HYPHENRANGE] = "^\\s*(" +
+    src[XRANGEPLAIN] +
+    ")" +
+    "\\s+-\\s+" +
+    "(" +
+    src[XRANGEPLAIN] +
+    ")" +
+    "\\s*$";
+const HYPHENRANGELOOSE = R++;
+src[HYPHENRANGELOOSE] = "^\\s*(" +
+    src[XRANGEPLAINLOOSE] +
+    ")" +
+    "\\s+-\\s+" +
+    "(" +
+    src[XRANGEPLAINLOOSE] +
+    ")" +
+    "\\s*$";
+// Star ranges basically just allow anything at all.
+const STAR = R++;
+src[STAR] = "(<|>)?=?\\s*\\*";
+// Compile to actual regexp objects.
+// All are flag-free, unless they were created above with a flag.
+for (let i = 0; i < R; i++) {
+    if (!re[i]) {
+        re[i] = new RegExp(src[i]);
+    }
+}
+function parse(version, optionsOrLoose) {
+    if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+        optionsOrLoose = {
+            loose: !!optionsOrLoose,
+            includePrerelease: false,
+        };
+    }
+    if (version instanceof SemVer) {
+        return version;
+    }
+    if (typeof version !== "string") {
+        return null;
+    }
+    if (version.length > MAX_LENGTH) {
+        return null;
+    }
+    const r = optionsOrLoose.loose ? re[LOOSE] : re[FULL];
+    if (!r.test(version)) {
+        return null;
+    }
+    try {
+        return new SemVer(version, optionsOrLoose);
+    }
+    catch (er) {
+        return null;
+    }
+}
+exports.parse = parse;
+function valid(version, optionsOrLoose) {
+    if (version === null)
+        return null;
+    const v = parse(version, optionsOrLoose);
+    return v ? v.version : null;
+}
+exports.valid = valid;
+function clean(version, optionsOrLoose) {
+    const s = parse(version.trim().replace(/^[=v]+/, ""), optionsOrLoose);
+    return s ? s.version : null;
+}
+exports.clean = clean;
+class SemVer {
+    constructor(version, optionsOrLoose) {
+        Object.defineProperty(this, "raw", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "loose", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "options", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "major", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "minor", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "patch", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "version", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "build", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "prerelease", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+            optionsOrLoose = {
+                loose: !!optionsOrLoose,
+                includePrerelease: false,
+            };
+        }
+        if (version instanceof SemVer) {
+            if (version.loose === optionsOrLoose.loose) {
+                return version;
+            }
+            else {
+                version = version.version;
+            }
+        }
+        else if (typeof version !== "string") {
+            throw new TypeError("Invalid Version: " + version);
+        }
+        if (version.length > MAX_LENGTH) {
+            throw new TypeError("version is longer than " + MAX_LENGTH + " characters");
+        }
+        if (!(this instanceof SemVer)) {
+            return new SemVer(version, optionsOrLoose);
+        }
+        this.options = optionsOrLoose;
+        this.loose = !!optionsOrLoose.loose;
+        const m = version.trim().match(optionsOrLoose.loose ? re[LOOSE] : re[FULL]);
+        if (!m) {
+            throw new TypeError("Invalid Version: " + version);
+        }
+        this.raw = version;
+        // these are actually numbers
+        this.major = +m[1];
+        this.minor = +m[2];
+        this.patch = +m[3];
+        if (this.major > Number.MAX_SAFE_INTEGER || this.major < 0) {
+            throw new TypeError("Invalid major version");
+        }
+        if (this.minor > Number.MAX_SAFE_INTEGER || this.minor < 0) {
+            throw new TypeError("Invalid minor version");
+        }
+        if (this.patch > Number.MAX_SAFE_INTEGER || this.patch < 0) {
+            throw new TypeError("Invalid patch version");
+        }
+        // numberify any prerelease numeric ids
+        if (!m[4]) {
+            this.prerelease = [];
+        }
+        else {
+            this.prerelease = m[4].split(".").map((id) => {
+                if (/^[0-9]+$/.test(id)) {
+                    const num = +id;
+                    if (num >= 0 && num < Number.MAX_SAFE_INTEGER) {
+                        return num;
+                    }
+                }
+                return id;
+            });
+        }
+        this.build = m[5] ? m[5].split(".") : [];
+        this.format();
+    }
+    format() {
+        this.version = this.major + "." + this.minor + "." + this.patch;
+        if (this.prerelease.length) {
+            this.version += "-" + this.prerelease.join(".");
+        }
+        return this.version;
+    }
+    compare(other) {
+        if (!(other instanceof SemVer)) {
+            other = new SemVer(other, this.options);
+        }
+        return this.compareMain(other) || this.comparePre(other);
+    }
+    compareMain(other) {
+        if (!(other instanceof SemVer)) {
+            other = new SemVer(other, this.options);
+        }
+        return (compareIdentifiers(this.major, other.major) ||
+            compareIdentifiers(this.minor, other.minor) ||
+            compareIdentifiers(this.patch, other.patch));
+    }
+    comparePre(other) {
+        if (!(other instanceof SemVer)) {
+            other = new SemVer(other, this.options);
+        }
+        // NOT having a prerelease is > having one
+        if (this.prerelease.length && !other.prerelease.length) {
+            return -1;
+        }
+        else if (!this.prerelease.length && other.prerelease.length) {
+            return 1;
+        }
+        else if (!this.prerelease.length && !other.prerelease.length) {
+            return 0;
+        }
+        let i = 0;
+        do {
+            const a = this.prerelease[i];
+            const b = other.prerelease[i];
+            if (a === undefined && b === undefined) {
+                return 0;
+            }
+            else if (b === undefined) {
+                return 1;
+            }
+            else if (a === undefined) {
+                return -1;
+            }
+            else if (a === b) {
+                continue;
+            }
+            else {
+                return compareIdentifiers(a, b);
+            }
+        } while (++i);
+        return 1;
+    }
+    compareBuild(other) {
+        if (!(other instanceof SemVer)) {
+            other = new SemVer(other, this.options);
+        }
+        let i = 0;
+        do {
+            const a = this.build[i];
+            const b = other.build[i];
+            if (a === undefined && b === undefined) {
+                return 0;
+            }
+            else if (b === undefined) {
+                return 1;
+            }
+            else if (a === undefined) {
+                return -1;
+            }
+            else if (a === b) {
+                continue;
+            }
+            else {
+                return compareIdentifiers(a, b);
+            }
+        } while (++i);
+        return 1;
+    }
+    inc(release, identifier) {
+        switch (release) {
+            case "premajor":
+                this.prerelease.length = 0;
+                this.patch = 0;
+                this.minor = 0;
+                this.major++;
+                this.inc("pre", identifier);
+                break;
+            case "preminor":
+                this.prerelease.length = 0;
+                this.patch = 0;
+                this.minor++;
+                this.inc("pre", identifier);
+                break;
+            case "prepatch":
+                // If this is already a prerelease, it will bump to the next version
+                // drop any prereleases that might already exist, since they are not
+                // relevant at this point.
+                this.prerelease.length = 0;
+                this.inc("patch", identifier);
+                this.inc("pre", identifier);
+                break;
+            // If the input is a non-prerelease version, this acts the same as
+            // prepatch.
+            case "prerelease":
+                if (this.prerelease.length === 0) {
+                    this.inc("patch", identifier);
+                }
+                this.inc("pre", identifier);
+                break;
+            case "major":
+                // If this is a pre-major version, bump up to the same major version.
+                // Otherwise increment major.
+                // 1.0.0-5 bumps to 1.0.0
+                // 1.1.0 bumps to 2.0.0
+                if (this.minor !== 0 ||
+                    this.patch !== 0 ||
+                    this.prerelease.length === 0) {
+                    this.major++;
+                }
+                this.minor = 0;
+                this.patch = 0;
+                this.prerelease = [];
+                break;
+            case "minor":
+                // If this is a pre-minor version, bump up to the same minor version.
+                // Otherwise increment minor.
+                // 1.2.0-5 bumps to 1.2.0
+                // 1.2.1 bumps to 1.3.0
+                if (this.patch !== 0 || this.prerelease.length === 0) {
+                    this.minor++;
+                }
+                this.patch = 0;
+                this.prerelease = [];
+                break;
+            case "patch":
+                // If this is not a pre-release version, it will increment the patch.
+                // If it is a pre-release it will bump up to the same patch version.
+                // 1.2.0-5 patches to 1.2.0
+                // 1.2.0 patches to 1.2.1
+                if (this.prerelease.length === 0) {
+                    this.patch++;
+                }
+                this.prerelease = [];
+                break;
+            // This probably shouldn't be used publicly.
+            // 1.0.0 "pre" would become 1.0.0-0 which is the wrong direction.
+            case "pre":
+                if (this.prerelease.length === 0) {
+                    this.prerelease = [0];
+                }
+                else {
+                    let i = this.prerelease.length;
+                    while (--i >= 0) {
+                        if (typeof this.prerelease[i] === "number") {
+                            this.prerelease[i]++;
+                            i = -2;
+                        }
+                    }
+                    if (i === -1) {
+                        // didn't increment anything
+                        this.prerelease.push(0);
+                    }
+                }
+                if (identifier) {
+                    // 1.2.0-beta.1 bumps to 1.2.0-beta.2,
+                    // 1.2.0-beta.fooblz or 1.2.0-beta bumps to 1.2.0-beta.0
+                    if (this.prerelease[0] === identifier) {
+                        if (isNaN(this.prerelease[1])) {
+                            this.prerelease = [identifier, 0];
+                        }
+                    }
+                    else {
+                        this.prerelease = [identifier, 0];
+                    }
+                }
+                break;
+            default:
+                throw new Error("invalid increment argument: " + release);
+        }
+        this.format();
+        this.raw = this.version;
+        return this;
+    }
+    toString() {
+        return this.version;
+    }
+}
+exports.SemVer = SemVer;
+/**
+ * Return the version incremented by the release type (major, minor, patch, or prerelease), or null if it's not valid.
+ */
+function inc(version, release, optionsOrLoose, identifier) {
+    if (typeof optionsOrLoose === "string") {
+        identifier = optionsOrLoose;
+        optionsOrLoose = undefined;
+    }
+    try {
+        return new SemVer(version, optionsOrLoose).inc(release, identifier).version;
+    }
+    catch (er) {
+        return null;
+    }
+}
+exports.inc = inc;
+function diff(version1, version2, optionsOrLoose) {
+    if (eq(version1, version2, optionsOrLoose)) {
+        return null;
+    }
+    else {
+        const v1 = parse(version1);
+        const v2 = parse(version2);
+        let prefix = "";
+        let defaultResult = null;
+        if (v1 && v2) {
+            if (v1.prerelease.length || v2.prerelease.length) {
+                prefix = "pre";
+                defaultResult = "prerelease";
+            }
+            for (const key in v1) {
+                if (key === "major" || key === "minor" || key === "patch") {
+                    if (v1[key] !== v2[key]) {
+                        return (prefix + key);
+                    }
+                }
+            }
+        }
+        return defaultResult; // may be undefined
+    }
+}
+exports.diff = diff;
+const numeric = /^[0-9]+$/;
+function compareIdentifiers(a, b) {
+    const anum = numeric.test(a);
+    const bnum = numeric.test(b);
+    if (a === null || b === null)
+        throw "Comparison against null invalid";
+    if (anum && bnum) {
+        a = +a;
+        b = +b;
+    }
+    return a === b ? 0 : anum && !bnum ? -1 : bnum && !anum ? 1 : a < b ? -1 : 1;
+}
+exports.compareIdentifiers = compareIdentifiers;
+function rcompareIdentifiers(a, b) {
+    return compareIdentifiers(b, a);
+}
+exports.rcompareIdentifiers = rcompareIdentifiers;
+/**
+ * Return the major version number.
+ */
+function major(v, optionsOrLoose) {
+    return new SemVer(v, optionsOrLoose).major;
+}
+exports.major = major;
+/**
+ * Return the minor version number.
+ */
+function minor(v, optionsOrLoose) {
+    return new SemVer(v, optionsOrLoose).minor;
+}
+exports.minor = minor;
+/**
+ * Return the patch version number.
+ */
+function patch(v, optionsOrLoose) {
+    return new SemVer(v, optionsOrLoose).patch;
+}
+exports.patch = patch;
+function compare(v1, v2, optionsOrLoose) {
+    return new SemVer(v1, optionsOrLoose).compare(new SemVer(v2, optionsOrLoose));
+}
+exports.compare = compare;
+function compareLoose(a, b) {
+    return compare(a, b, true);
+}
+exports.compareLoose = compareLoose;
+function compareBuild(a, b, loose) {
+    var versionA = new SemVer(a, loose);
+    var versionB = new SemVer(b, loose);
+    return versionA.compare(versionB) || versionA.compareBuild(versionB);
+}
+exports.compareBuild = compareBuild;
+function rcompare(v1, v2, optionsOrLoose) {
+    return compare(v2, v1, optionsOrLoose);
+}
+exports.rcompare = rcompare;
+function sort(list, optionsOrLoose) {
+    return list.sort((a, b) => {
+        return compareBuild(a, b, optionsOrLoose);
+    });
+}
+exports.sort = sort;
+function rsort(list, optionsOrLoose) {
+    return list.sort((a, b) => {
+        return compareBuild(b, a, optionsOrLoose);
+    });
+}
+exports.rsort = rsort;
+function gt(v1, v2, optionsOrLoose) {
+    return compare(v1, v2, optionsOrLoose) > 0;
+}
+exports.gt = gt;
+function lt(v1, v2, optionsOrLoose) {
+    return compare(v1, v2, optionsOrLoose) < 0;
+}
+exports.lt = lt;
+function eq(v1, v2, optionsOrLoose) {
+    return compare(v1, v2, optionsOrLoose) === 0;
+}
+exports.eq = eq;
+function neq(v1, v2, optionsOrLoose) {
+    return compare(v1, v2, optionsOrLoose) !== 0;
+}
+exports.neq = neq;
+function gte(v1, v2, optionsOrLoose) {
+    return compare(v1, v2, optionsOrLoose) >= 0;
+}
+exports.gte = gte;
+function lte(v1, v2, optionsOrLoose) {
+    return compare(v1, v2, optionsOrLoose) <= 0;
+}
+exports.lte = lte;
+function cmp(v1, operator, v2, optionsOrLoose) {
+    switch (operator) {
+        case "===":
+            if (typeof v1 === "object")
+                v1 = v1.version;
+            if (typeof v2 === "object")
+                v2 = v2.version;
+            return v1 === v2;
+        case "!==":
+            if (typeof v1 === "object")
+                v1 = v1.version;
+            if (typeof v2 === "object")
+                v2 = v2.version;
+            return v1 !== v2;
+        case "":
+        case "=":
+        case "==":
+            return eq(v1, v2, optionsOrLoose);
+        case "!=":
+            return neq(v1, v2, optionsOrLoose);
+        case ">":
+            return gt(v1, v2, optionsOrLoose);
+        case ">=":
+            return gte(v1, v2, optionsOrLoose);
+        case "<":
+            return lt(v1, v2, optionsOrLoose);
+        case "<=":
+            return lte(v1, v2, optionsOrLoose);
+        default:
+            throw new TypeError("Invalid operator: " + operator);
+    }
+}
+exports.cmp = cmp;
+const ANY = {};
+class Comparator {
+    constructor(comp, optionsOrLoose) {
+        Object.defineProperty(this, "semver", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "operator", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "value", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "loose", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "options", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+            optionsOrLoose = {
+                loose: !!optionsOrLoose,
+                includePrerelease: false,
+            };
+        }
+        if (comp instanceof Comparator) {
+            if (comp.loose === !!optionsOrLoose.loose) {
+                return comp;
+            }
+            else {
+                comp = comp.value;
+            }
+        }
+        if (!(this instanceof Comparator)) {
+            return new Comparator(comp, optionsOrLoose);
+        }
+        this.options = optionsOrLoose;
+        this.loose = !!optionsOrLoose.loose;
+        this.parse(comp);
+        if (this.semver === ANY) {
+            this.value = "";
+        }
+        else {
+            this.value = this.operator + this.semver.version;
+        }
+    }
+    parse(comp) {
+        const r = this.options.loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
+        const m = comp.match(r);
+        if (!m) {
+            throw new TypeError("Invalid comparator: " + comp);
+        }
+        const m1 = m[1];
+        this.operator = m1 !== undefined ? m1 : "";
+        if (this.operator === "=") {
+            this.operator = "";
+        }
+        // if it literally is just '>' or '' then allow anything.
+        if (!m[2]) {
+            this.semver = ANY;
+        }
+        else {
+            this.semver = new SemVer(m[2], this.options.loose);
+        }
+    }
+    test(version) {
+        if (this.semver === ANY || version === ANY) {
+            return true;
+        }
+        if (typeof version === "string") {
+            version = new SemVer(version, this.options);
+        }
+        return cmp(version, this.operator, this.semver, this.options);
+    }
+    intersects(comp, optionsOrLoose) {
+        if (!(comp instanceof Comparator)) {
+            throw new TypeError("a Comparator is required");
+        }
+        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+            optionsOrLoose = {
+                loose: !!optionsOrLoose,
+                includePrerelease: false,
+            };
+        }
+        let rangeTmp;
+        if (this.operator === "") {
+            if (this.value === "") {
+                return true;
+            }
+            rangeTmp = new Range(comp.value, optionsOrLoose);
+            return satisfies(this.value, rangeTmp, optionsOrLoose);
+        }
+        else if (comp.operator === "") {
+            if (comp.value === "") {
+                return true;
+            }
+            rangeTmp = new Range(this.value, optionsOrLoose);
+            return satisfies(comp.semver, rangeTmp, optionsOrLoose);
+        }
+        const sameDirectionIncreasing = (this.operator === ">=" || this.operator === ">") &&
+            (comp.operator === ">=" || comp.operator === ">");
+        const sameDirectionDecreasing = (this.operator === "<=" || this.operator === "<") &&
+            (comp.operator === "<=" || comp.operator === "<");
+        const sameSemVer = this.semver.version === comp.semver.version;
+        const differentDirectionsInclusive = (this.operator === ">=" || this.operator === "<=") &&
+            (comp.operator === ">=" || comp.operator === "<=");
+        const oppositeDirectionsLessThan = cmp(this.semver, "<", comp.semver, optionsOrLoose) &&
+            (this.operator === ">=" || this.operator === ">") &&
+            (comp.operator === "<=" || comp.operator === "<");
+        const oppositeDirectionsGreaterThan = cmp(this.semver, ">", comp.semver, optionsOrLoose) &&
+            (this.operator === "<=" || this.operator === "<") &&
+            (comp.operator === ">=" || comp.operator === ">");
+        return (sameDirectionIncreasing ||
+            sameDirectionDecreasing ||
+            (sameSemVer && differentDirectionsInclusive) ||
+            oppositeDirectionsLessThan ||
+            oppositeDirectionsGreaterThan);
+    }
+    toString() {
+        return this.value;
+    }
+}
+exports.Comparator = Comparator;
+class Range {
+    constructor(range, optionsOrLoose) {
+        Object.defineProperty(this, "range", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "raw", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "loose", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "options", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "includePrerelease", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "set", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+            optionsOrLoose = {
+                loose: !!optionsOrLoose,
+                includePrerelease: false,
+            };
+        }
+        if (range instanceof Range) {
+            if (range.loose === !!optionsOrLoose.loose &&
+                range.includePrerelease === !!optionsOrLoose.includePrerelease) {
+                return range;
+            }
+            else {
+                return new Range(range.raw, optionsOrLoose);
+            }
+        }
+        if (range instanceof Comparator) {
+            return new Range(range.value, optionsOrLoose);
+        }
+        if (!(this instanceof Range)) {
+            return new Range(range, optionsOrLoose);
+        }
+        this.options = optionsOrLoose;
+        this.loose = !!optionsOrLoose.loose;
+        this.includePrerelease = !!optionsOrLoose.includePrerelease;
+        // First, split based on boolean or ||
+        this.raw = range;
+        this.set = range
+            .split(/\s*\|\|\s*/)
+            .map((range) => this.parseRange(range.trim()))
+            .filter((c) => {
+            // throw out any that are not relevant for whatever reason
+            return c.length;
+        });
+        if (!this.set.length) {
+            throw new TypeError("Invalid SemVer Range: " + range);
+        }
+        this.format();
+    }
+    format() {
+        this.range = this.set
+            .map((comps) => comps.join(" ").trim())
+            .join("||")
+            .trim();
+        return this.range;
+    }
+    parseRange(range) {
+        const loose = this.options.loose;
+        range = range.trim();
+        // `1.2.3 - 1.2.4` => `>=1.2.3 <=1.2.4`
+        const hr = loose ? re[HYPHENRANGELOOSE] : re[HYPHENRANGE];
+        range = range.replace(hr, hyphenReplace);
+        // `> 1.2.3 < 1.2.5` => `>1.2.3 <1.2.5`
+        range = range.replace(re[COMPARATORTRIM], comparatorTrimReplace);
+        // `~ 1.2.3` => `~1.2.3`
+        range = range.replace(re[TILDETRIM], tildeTrimReplace);
+        // `^ 1.2.3` => `^1.2.3`
+        range = range.replace(re[CARETTRIM], caretTrimReplace);
+        // normalize spaces
+        range = range.split(/\s+/).join(" ");
+        // At this point, the range is completely trimmed and
+        // ready to be split into comparators.
+        const compRe = loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
+        let set = range
+            .split(" ")
+            .map((comp) => parseComparator(comp, this.options))
+            .join(" ")
+            .split(/\s+/);
+        if (this.options.loose) {
+            // in loose mode, throw out any that are not valid comparators
+            set = set.filter((comp) => {
+                return !!comp.match(compRe);
+            });
+        }
+        return set.map((comp) => new Comparator(comp, this.options));
+    }
+    test(version) {
+        if (typeof version === "string") {
+            version = new SemVer(version, this.options);
+        }
+        for (var i = 0; i < this.set.length; i++) {
+            if (testSet(this.set[i], version, this.options)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    intersects(range, optionsOrLoose) {
+        if (!(range instanceof Range)) {
+            throw new TypeError("a Range is required");
+        }
+        return this.set.some((thisComparators) => {
+            return (isSatisfiable(thisComparators, optionsOrLoose) &&
+                range.set.some((rangeComparators) => {
+                    return (isSatisfiable(rangeComparators, optionsOrLoose) &&
+                        thisComparators.every((thisComparator) => {
+                            return rangeComparators.every((rangeComparator) => {
+                                return thisComparator.intersects(rangeComparator, optionsOrLoose);
+                            });
+                        }));
+                }));
+        });
+    }
+    toString() {
+        return this.range;
+    }
+}
+exports.Range = Range;
+function testSet(set, version, options) {
+    for (let i = 0; i < set.length; i++) {
+        if (!set[i].test(version)) {
+            return false;
+        }
+    }
+    if (version.prerelease.length && !options.includePrerelease) {
+        // Find the set of versions that are allowed to have prereleases
+        // For example, ^1.2.3-pr.1 desugars to >=1.2.3-pr.1 <2.0.0
+        // That should allow `1.2.3-pr.2` to pass.
+        // However, `1.2.4-alpha.notready` should NOT be allowed,
+        // even though it's within the range set by the comparators.
+        for (let i = 0; i < set.length; i++) {
+            if (set[i].semver === ANY) {
+                continue;
+            }
+            if (set[i].semver.prerelease.length > 0) {
+                const allowed = set[i].semver;
+                if (allowed.major === version.major &&
+                    allowed.minor === version.minor &&
+                    allowed.patch === version.patch) {
+                    return true;
+                }
+            }
+        }
+        // Version has a -pre, but it's not one of the ones we like.
+        return false;
+    }
+    return true;
+}
+// take a set of comparators and determine whether there
+// exists a version which can satisfy it
+function isSatisfiable(comparators, options) {
+    let result = true;
+    const remainingComparators = comparators.slice();
+    let testComparator = remainingComparators.pop();
+    while (result && remainingComparators.length) {
+        result = remainingComparators.every((otherComparator) => {
+            return testComparator?.intersects(otherComparator, options);
+        });
+        testComparator = remainingComparators.pop();
+    }
+    return result;
+}
+// Mostly just for testing and legacy API reasons
+function toComparators(range, optionsOrLoose) {
+    return new Range(range, optionsOrLoose).set.map((comp) => {
+        return comp
+            .map((c) => c.value)
+            .join(" ")
+            .trim()
+            .split(" ");
+    });
+}
+exports.toComparators = toComparators;
+// comprised of xranges, tildes, stars, and gtlt's at this point.
+// already replaced the hyphen ranges
+// turn into a set of JUST comparators.
+function parseComparator(comp, options) {
+    comp = replaceCarets(comp, options);
+    comp = replaceTildes(comp, options);
+    comp = replaceXRanges(comp, options);
+    comp = replaceStars(comp, options);
+    return comp;
+}
+function isX(id) {
+    return !id || id.toLowerCase() === "x" || id === "*";
+}
+// ~, ~> --> * (any, kinda silly)
+// ~2, ~2.x, ~2.x.x, ~>2, ~>2.x ~>2.x.x --> >=2.0.0 <3.0.0
+// ~2.0, ~2.0.x, ~>2.0, ~>2.0.x --> >=2.0.0 <2.1.0
+// ~1.2, ~1.2.x, ~>1.2, ~>1.2.x --> >=1.2.0 <1.3.0
+// ~1.2.3, ~>1.2.3 --> >=1.2.3 <1.3.0
+// ~1.2.0, ~>1.2.0 --> >=1.2.0 <1.3.0
+function replaceTildes(comp, options) {
+    return comp
+        .trim()
+        .split(/\s+/)
+        .map((comp) => replaceTilde(comp, options))
+        .join(" ");
+}
+function replaceTilde(comp, options) {
+    const r = options.loose ? re[TILDELOOSE] : re[TILDE];
+    return comp.replace(r, (_, M, m, p, pr) => {
+        let ret;
+        if (isX(M)) {
+            ret = "";
+        }
+        else if (isX(m)) {
+            ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
+        }
+        else if (isX(p)) {
+            // ~1.2 == >=1.2.0 <1.3.0
+            ret = ">=" + M + "." + m + ".0 <" + M + "." + (+m + 1) + ".0";
+        }
+        else if (pr) {
+            ret = ">=" +
+                M +
+                "." +
+                m +
+                "." +
+                p +
+                "-" +
+                pr +
+                " <" +
+                M +
+                "." +
+                (+m + 1) +
+                ".0";
+        }
+        else {
+            // ~1.2.3 == >=1.2.3 <1.3.0
+            ret = ">=" + M + "." + m + "." + p + " <" + M + "." + (+m + 1) + ".0";
+        }
+        return ret;
+    });
+}
+// ^ --> * (any, kinda silly)
+// ^2, ^2.x, ^2.x.x --> >=2.0.0 <3.0.0
+// ^2.0, ^2.0.x --> >=2.0.0 <3.0.0
+// ^1.2, ^1.2.x --> >=1.2.0 <2.0.0
+// ^1.2.3 --> >=1.2.3 <2.0.0
+// ^1.2.0 --> >=1.2.0 <2.0.0
+function replaceCarets(comp, options) {
+    return comp
+        .trim()
+        .split(/\s+/)
+        .map((comp) => replaceCaret(comp, options))
+        .join(" ");
+}
+function replaceCaret(comp, options) {
+    const r = options.loose ? re[CARETLOOSE] : re[CARET];
+    return comp.replace(r, (_, M, m, p, pr) => {
+        let ret;
+        if (isX(M)) {
+            ret = "";
+        }
+        else if (isX(m)) {
+            ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
+        }
+        else if (isX(p)) {
+            if (M === "0") {
+                ret = ">=" + M + "." + m + ".0 <" + M + "." + (+m + 1) + ".0";
+            }
+            else {
+                ret = ">=" + M + "." + m + ".0 <" + (+M + 1) + ".0.0";
+            }
+        }
+        else if (pr) {
+            if (M === "0") {
+                if (m === "0") {
+                    ret = ">=" +
+                        M +
+                        "." +
+                        m +
+                        "." +
+                        p +
+                        "-" +
+                        pr +
+                        " <" +
+                        M +
+                        "." +
+                        m +
+                        "." +
+                        (+p + 1);
+                }
+                else {
+                    ret = ">=" +
+                        M +
+                        "." +
+                        m +
+                        "." +
+                        p +
+                        "-" +
+                        pr +
+                        " <" +
+                        M +
+                        "." +
+                        (+m + 1) +
+                        ".0";
+                }
+            }
+            else {
+                ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + (+M + 1) +
+                    ".0.0";
+            }
+        }
+        else {
+            if (M === "0") {
+                if (m === "0") {
+                    ret = ">=" + M + "." + m + "." + p + " <" + M + "." + m + "." +
+                        (+p + 1);
+                }
+                else {
+                    ret = ">=" + M + "." + m + "." + p + " <" + M + "." + (+m + 1) + ".0";
+                }
+            }
+            else {
+                ret = ">=" + M + "." + m + "." + p + " <" + (+M + 1) + ".0.0";
+            }
+        }
+        return ret;
+    });
+}
+function replaceXRanges(comp, options) {
+    return comp
+        .split(/\s+/)
+        .map((comp) => replaceXRange(comp, options))
+        .join(" ");
+}
+function replaceXRange(comp, options) {
+    comp = comp.trim();
+    const r = options.loose ? re[XRANGELOOSE] : re[XRANGE];
+    return comp.replace(r, (ret, gtlt, M, m, p, pr) => {
+        const xM = isX(M);
+        const xm = xM || isX(m);
+        const xp = xm || isX(p);
+        const anyX = xp;
+        if (gtlt === "=" && anyX) {
+            gtlt = "";
+        }
+        if (xM) {
+            if (gtlt === ">" || gtlt === "<") {
+                // nothing is allowed
+                ret = "<0.0.0";
+            }
+            else {
+                // nothing is forbidden
+                ret = "*";
+            }
+        }
+        else if (gtlt && anyX) {
+            // we know patch is an x, because we have any x at all.
+            // replace X with 0
+            if (xm) {
+                m = 0;
+            }
+            p = 0;
+            if (gtlt === ">") {
+                // >1 => >=2.0.0
+                // >1.2 => >=1.3.0
+                // >1.2.3 => >= 1.2.4
+                gtlt = ">=";
+                if (xm) {
+                    M = +M + 1;
+                    m = 0;
+                    p = 0;
+                }
+                else {
+                    m = +m + 1;
+                    p = 0;
+                }
+            }
+            else if (gtlt === "<=") {
+                // <=0.7.x is actually <0.8.0, since any 0.7.x should
+                // pass.  Similarly, <=7.x is actually <8.0.0, etc.
+                gtlt = "<";
+                if (xm) {
+                    M = +M + 1;
+                }
+                else {
+                    m = +m + 1;
+                }
+            }
+            ret = gtlt + M + "." + m + "." + p;
+        }
+        else if (xm) {
+            ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
+        }
+        else if (xp) {
+            ret = ">=" + M + "." + m + ".0 <" + M + "." + (+m + 1) + ".0";
+        }
+        return ret;
+    });
+}
+// Because * is AND-ed with everything else in the comparator,
+// and '' means "any version", just remove the *s entirely.
+function replaceStars(comp, options) {
+    // Looseness is ignored here.  star is always as loose as it gets!
+    return comp.trim().replace(re[STAR], "");
+}
+// This function is passed to string.replace(re[HYPHENRANGE])
+// M, m, patch, prerelease, build
+// 1.2 - 3.4.5 => >=1.2.0 <=3.4.5
+// 1.2.3 - 3.4 => >=1.2.0 <3.5.0 Any 3.4.x will do
+// 1.2 - 3.4 => >=1.2.0 <3.5.0
+function hyphenReplace($0, from, fM, fm, fp, fpr, fb, to, tM, tm, tp, tpr, tb) {
+    if (isX(fM)) {
+        from = "";
+    }
+    else if (isX(fm)) {
+        from = ">=" + fM + ".0.0";
+    }
+    else if (isX(fp)) {
+        from = ">=" + fM + "." + fm + ".0";
+    }
+    else {
+        from = ">=" + from;
+    }
+    if (isX(tM)) {
+        to = "";
+    }
+    else if (isX(tm)) {
+        to = "<" + (+tM + 1) + ".0.0";
+    }
+    else if (isX(tp)) {
+        to = "<" + tM + "." + (+tm + 1) + ".0";
+    }
+    else if (tpr) {
+        to = "<=" + tM + "." + tm + "." + tp + "-" + tpr;
+    }
+    else {
+        to = "<=" + to;
+    }
+    return (from + " " + to).trim();
+}
+function satisfies(version, range, optionsOrLoose) {
+    try {
+        range = new Range(range, optionsOrLoose);
+    }
+    catch (er) {
+        return false;
+    }
+    return range.test(version);
+}
+exports.satisfies = satisfies;
+function maxSatisfying(versions, range, optionsOrLoose) {
+    //todo
+    var max = null;
+    var maxSV = null;
+    try {
+        var rangeObj = new Range(range, optionsOrLoose);
+    }
+    catch (er) {
+        return null;
+    }
+    versions.forEach((v) => {
+        if (rangeObj.test(v)) {
+            // satisfies(v, range, options)
+            if (!max || (maxSV && maxSV.compare(v) === -1)) {
+                // compare(max, v, true)
+                max = v;
+                maxSV = new SemVer(max, optionsOrLoose);
+            }
+        }
+    });
+    return max;
+}
+exports.maxSatisfying = maxSatisfying;
+function minSatisfying(versions, range, optionsOrLoose) {
+    //todo
+    var min = null;
+    var minSV = null;
+    try {
+        var rangeObj = new Range(range, optionsOrLoose);
+    }
+    catch (er) {
+        return null;
+    }
+    versions.forEach((v) => {
+        if (rangeObj.test(v)) {
+            // satisfies(v, range, options)
+            if (!min || minSV.compare(v) === 1) {
+                // compare(min, v, true)
+                min = v;
+                minSV = new SemVer(min, optionsOrLoose);
+            }
+        }
+    });
+    return min;
+}
+exports.minSatisfying = minSatisfying;
+function minVersion(range, optionsOrLoose) {
+    range = new Range(range, optionsOrLoose);
+    var minver = new SemVer("0.0.0");
+    if (range.test(minver)) {
+        return minver;
+    }
+    minver = new SemVer("0.0.0-0");
+    if (range.test(minver)) {
+        return minver;
+    }
+    minver = null;
+    for (var i = 0; i < range.set.length; ++i) {
+        var comparators = range.set[i];
+        comparators.forEach((comparator) => {
+            // Clone to avoid manipulating the comparator's semver object.
+            var compver = new SemVer(comparator.semver.version);
+            switch (comparator.operator) {
+                case ">":
+                    if (compver.prerelease.length === 0) {
+                        compver.patch++;
+                    }
+                    else {
+                        compver.prerelease.push(0);
+                    }
+                    compver.raw = compver.format();
+                /* fallthrough */
+                case "":
+                case ">=":
+                    if (!minver || gt(minver, compver)) {
+                        minver = compver;
+                    }
+                    break;
+                case "<":
+                case "<=":
+                    /* Ignore maximum versions */
+                    break;
+                /* istanbul ignore next */
+                default:
+                    throw new Error("Unexpected operation: " + comparator.operator);
+            }
+        });
+    }
+    if (minver && range.test(minver)) {
+        return minver;
+    }
+    return null;
+}
+exports.minVersion = minVersion;
+function validRange(range, optionsOrLoose) {
+    try {
+        if (range === null)
+            return null;
+        // Return '*' instead of '' so that truthiness works.
+        // This will throw if it's invalid anyway
+        return new Range(range, optionsOrLoose).range || "*";
+    }
+    catch (er) {
+        return null;
+    }
+}
+exports.validRange = validRange;
+/**
+ * Return true if version is less than all the versions possible in the range.
+ */
+function ltr(version, range, optionsOrLoose) {
+    return outside(version, range, "<", optionsOrLoose);
+}
+exports.ltr = ltr;
+/**
+ * Return true if version is greater than all the versions possible in the range.
+ */
+function gtr(version, range, optionsOrLoose) {
+    return outside(version, range, ">", optionsOrLoose);
+}
+exports.gtr = gtr;
+/**
+ * Return true if the version is outside the bounds of the range in either the high or low direction.
+ * The hilo argument must be either the string '>' or '<'. (This is the function called by gtr and ltr.)
+ */
+function outside(version, range, hilo, optionsOrLoose) {
+    version = new SemVer(version, optionsOrLoose);
+    range = new Range(range, optionsOrLoose);
+    let gtfn;
+    let ltefn;
+    let ltfn;
+    let comp;
+    let ecomp;
+    switch (hilo) {
+        case ">":
+            gtfn = gt;
+            ltefn = lte;
+            ltfn = lt;
+            comp = ">";
+            ecomp = ">=";
+            break;
+        case "<":
+            gtfn = lt;
+            ltefn = gte;
+            ltfn = gt;
+            comp = "<";
+            ecomp = "<=";
+            break;
+        default:
+            throw new TypeError('Must provide a hilo val of "<" or ">"');
+    }
+    // If it satisifes the range it is not outside
+    if (satisfies(version, range, optionsOrLoose)) {
+        return false;
+    }
+    // From now on, variable terms are as if we're in "gtr" mode.
+    // but note that everything is flipped for the "ltr" function.
+    for (let i = 0; i < range.set.length; ++i) {
+        const comparators = range.set[i];
+        let high = null;
+        let low = null;
+        for (let comparator of comparators) {
+            if (comparator.semver === ANY) {
+                comparator = new Comparator(">=0.0.0");
+            }
+            high = high || comparator;
+            low = low || comparator;
+            if (gtfn(comparator.semver, high.semver, optionsOrLoose)) {
+                high = comparator;
+            }
+            else if (ltfn(comparator.semver, low.semver, optionsOrLoose)) {
+                low = comparator;
+            }
+        }
+        if (high === null || low === null)
+            return true;
+        // If the edge version comparator has a operator then our version
+        // isn't outside it
+        if (high.operator === comp || high.operator === ecomp) {
+            return false;
+        }
+        // If the lowest version comparator has an operator and our version
+        // is less than it then it isn't higher than the range
+        if ((!low.operator || low.operator === comp) &&
+            ltefn(version, low.semver)) {
+            return false;
+        }
+        else if (low.operator === ecomp && ltfn(version, low.semver)) {
+            return false;
+        }
+    }
+    return true;
+}
+exports.outside = outside;
+function prerelease(version, optionsOrLoose) {
+    var parsed = parse(version, optionsOrLoose);
+    return parsed && parsed.prerelease.length ? parsed.prerelease : null;
+}
+exports.prerelease = prerelease;
+/**
+ * Return true if any of the ranges comparators intersect
+ */
+function intersects(range1, range2, optionsOrLoose) {
+    range1 = new Range(range1, optionsOrLoose);
+    range2 = new Range(range2, optionsOrLoose);
+    return range1.intersects(range2);
+}
+exports.intersects = intersects;
+/**
+ * Coerces a string to semver if possible
+ */
+function coerce(version, optionsOrLoose) {
+    if (version instanceof SemVer) {
+        return version;
+    }
+    if (typeof version !== "string") {
+        return null;
+    }
+    const match = version.match(re[COERCE]);
+    if (match == null) {
+        return null;
+    }
+    return parse(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"), optionsOrLoose);
+}
+exports.coerce = coerce;
+exports["default"] = SemVer;
+
+
+/***/ }),
+
+/***/ 812:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Release = exports.parser = exports.Changelog = exports.Change = void 0;
+__nccwpck_require__(381);
+const parser_js_1 = __importDefault(__nccwpck_require__(580));
+exports.parser = parser_js_1.default;
+const Change_js_1 = __importDefault(__nccwpck_require__(8));
+exports.Change = Change_js_1.default;
+const Changelog_js_1 = __importDefault(__nccwpck_require__(697));
+exports.Changelog = Changelog_js_1.default;
+const Release_js_1 = __importDefault(__nccwpck_require__(504));
+exports.Release = Release_js_1.default;
+
+
+/***/ }),
+
+/***/ 8:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+class Change {
+    constructor(title, description = "") {
+        Object.defineProperty(this, "title", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "description", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "issues", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: []
+        });
+        this.title = Change.extractIssues(title, this.issues);
+        this.description = Change.extractIssues(description, this.issues);
+    }
+    static extractIssues(text, issues) {
+        return text
+            .replace(/(^|[^\\])\[#(\d+)\](?=[^\(]|$)/g, (_, start, index) => {
+            if (!issues.includes(index)) {
+                issues.push(index);
+            }
+            return `${start}[#${index}]`;
+        })
+            .replace(/(^|[\s,])#(\d+)(?=[\s,\.]|$)/g, (_, start, index) => {
+            if (!issues.includes(index)) {
+                issues.push(index);
+            }
+            return `${start}[#${index}]`;
+        });
+    }
+    toString() {
+        let t = this.title.split("\n").map((line) => `  ${line}`.trimEnd());
+        t[0] = "-" + t[0].substr(1);
+        if (this.description) {
+            t.push("");
+            t = t.concat(this.description.split("\n").map((line) => `  ${line}`.trimEnd()));
+        }
+        return t.join("\n").trim();
+    }
+}
+exports["default"] = Change;
+
+
+/***/ }),
+
+/***/ 697:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const deps_js_1 = __nccwpck_require__(179);
+class Changelog {
+    constructor(title, description = "") {
+        Object.defineProperty(this, "flag", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "title", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "description", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "head", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: "HEAD"
+        });
+        Object.defineProperty(this, "footer", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "url", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "releases", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: []
+        });
+        Object.defineProperty(this, "tagNameBuilder", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.title = title;
+        this.description = description;
+    }
+    addRelease(release) {
         this.releases.push(release);
         this.sortReleases();
         release.changelog = this;
-
         return this;
     }
-
     findRelease(version) {
         if (!version) {
             return this.releases.find((release) => !release.version);
         }
-        return this.releases.find((release) => release.version && eq(release.version, version));
+        return this.releases.find((release) => release.version && (0, deps_js_1.eq)(release.version, version));
     }
-
     sortReleases() {
         this.releases.sort((a, b) => a.compare(b));
     }
-
     tagName(release) {
         if (this.tagNameBuilder) {
             return this.tagNameBuilder(release);
         }
-
         return `v${release.version}`;
     }
-
     toString() {
-        const t = [`# ${this.title}`];
-
+        const t = [];
+        if (this.flag) {
+            t.push(`<!-- ${this.flag} -->`);
+            t.push("");
+        }
+        t.push(`# ${this.title}`);
         const links = [];
         const compareLinks = [];
-
-        const description =
-            this.description.trim() ||
+        const description = this.description.trim() ||
             `All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).`;
-
         if (description) {
-            t.push('');
+            t.push("");
             t.push(description);
         }
-
         this.releases.forEach((release) => {
-            t.push('');
+            t.push("");
             t.push(release.toString(this));
-
             release.getLinks(this).forEach((link) => {
                 if (!links.includes(link)) {
                     links.push(link);
                 }
             });
-
-            const link = release.getCompareLink(this);
-
-            if (link) {
-                compareLinks.push(link);
+            const compareLink = release.getCompareLink(this);
+            if (compareLink) {
+                compareLinks.push(compareLink);
             }
         });
-
         if (links.length) {
-            t.push('');
+            t.push("");
             links.sort(compare);
             links.forEach((link) => t.push(link));
         }
-
         if (compareLinks.length) {
-            t.push('');
-
+            t.push("");
             compareLinks.forEach((link) => t.push(link));
         }
-
-        t.push('');
-
+        t.push("");
         if (this.footer) {
-            t.push('---');
-            t.push('');
+            t.push("---");
+            t.push("");
             t.push(this.footer);
-            t.push('');
+            t.push("");
         }
-
-        return t.join('\n');
+        return t.join("\n");
     }
 }
-
-module.exports = Changelog;
-
+exports["default"] = Changelog;
 function compare(a, b) {
     if (a === b) {
         return 0;
@@ -691,70 +4065,103 @@ function compare(a, b) {
     const reg = /^\[#(\d+)\]:/;
     const aNumber = a.match(reg);
     const bNumber = b.match(reg);
-
     if (aNumber && bNumber) {
         return parseInt(aNumber[1]) - parseInt(bNumber[1]);
     }
-
     return a < b ? -1 : 1;
 }
 
 
 /***/ }),
 
-/***/ 421:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ 504:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-const Semver = __webpack_require__(88);
-const Change = __webpack_require__(127);
+"use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const deps_js_1 = __nccwpck_require__(179);
+const Change_js_1 = __importDefault(__nccwpck_require__(8));
 class Release {
-    constructor(version, date, description = '') {
+    constructor(version, date, description = "") {
+        Object.defineProperty(this, "changelog", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "version", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "date", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "yanked", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false
+        });
+        Object.defineProperty(this, "description", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "changes", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         this.setVersion(version);
         this.setDate(date);
-
         this.description = description;
         this.changes = new Map([
-            ['added', []],
-            ['changed', []],
-            ['deprecated', []],
-            ['removed', []],
-            ['fixed', []],
-            ['security', []],
+            ["added", []],
+            ["changed", []],
+            ["deprecated", []],
+            ["removed", []],
+            ["fixed", []],
+            ["security", []],
         ]);
     }
-
     compare(release) {
         if (!this.version && release.version) {
             return -1;
         }
-
         if (!release.version) {
             return 1;
         }
-
         if (!this.date && release.date) {
             return -1;
         }
-
         if (!release.date) {
             return 1;
         }
-
-        return -this.version.compare(release.version);
+        if (this.version && release.version) {
+            return -this.version.compare(release.version);
+        }
+        return 0;
     }
-
     isEmpty() {
         if (this.description.trim()) {
             return false;
         }
-
         return Array.from(this.changes.values()).every((change) => !change.length);
     }
-
     setVersion(version) {
-        if (typeof version === 'string') {
-            version = new Semver(version);
+        if (typeof version === "string") {
+            version = new deps_js_1.Semver(version);
         }
         this.version = version;
         //Re-sort the releases of the parent changelog
@@ -762,989 +4169,326 @@ class Release {
             this.changelog.sortReleases();
         }
     }
-
     setDate(date) {
-        if (typeof date === 'string') {
+        if (typeof date === "string") {
             date = new Date(date);
         }
         this.date = date;
     }
-
     addChange(type, change) {
-        if (!(change instanceof Change)) {
-            change = new Change(change);
+        if (!(change instanceof Change_js_1.default)) {
+            change = new Change_js_1.default(change);
         }
-
         if (!this.changes.has(type)) {
-            throw new Error('Invalid change type');
+            throw new Error("Invalid change type");
         }
-
         this.changes.get(type).push(change);
-
         return this;
     }
-
     added(change) {
-        return this.addChange('added', change);
+        return this.addChange("added", change);
     }
-
     changed(change) {
-        return this.addChange('changed', change);
+        return this.addChange("changed", change);
     }
-
     deprecated(change) {
-        return this.addChange('deprecated', change);
+        return this.addChange("deprecated", change);
     }
-
     removed(change) {
-        return this.addChange('removed', change);
+        return this.addChange("removed", change);
     }
-
     fixed(change) {
-        return this.addChange('fixed', change);
+        return this.addChange("fixed", change);
     }
-
     security(change) {
-        return this.addChange('security', change);
+        return this.addChange("security", change);
     }
-
     toString(changelog) {
         let t = [];
-
+        const hasCompareLink = this.getCompareLink(changelog) !== undefined;
+        const yanked = this.yanked ? " [YANKED]" : "";
         if (this.version) {
-            if (this.hasCompareLink(changelog)) {
-                t.push(`## [${this.version}] - ${formatDate(this.date)}`);
-            } else {
-                t.push(`## ${this.version} - ${formatDate(this.date)}`);
+            if (hasCompareLink) {
+                t.push(`## [${this.version}] - ${formatDate(this.date)}${yanked}`);
             }
-        } else {
-            if (this.hasCompareLink(changelog)) {
-                t.push('## [Unreleased]');
-            } else {
-                t.push('## Unreleased');
+            else {
+                t.push(`## ${this.version} - ${formatDate(this.date)}${yanked}`);
             }
         }
-
+        else {
+            if (hasCompareLink) {
+                t.push(`## [Unreleased]${yanked}`);
+            }
+            else {
+                t.push(`## Unreleased${yanked}`);
+            }
+        }
         if (this.description.trim()) {
             t.push(this.description.trim());
-            t.push('');
+            t.push("");
         }
-
         this.changes.forEach((changes, type) => {
             if (changes.length) {
                 t.push(`### ${type[0].toUpperCase()}${type.substring(1)}`);
                 t = t.concat(changes.map((change) => change.toString()));
-                t.push('');
+                t.push("");
             }
         });
-
-        return t.join('\n').trim();
+        return t.join("\n").trim();
     }
-
     getCompareLink(changelog) {
-        if (!this.hasCompareLink(changelog)) {
+        if (!changelog?.url) {
             return;
         }
-
         const index = changelog.releases.indexOf(this);
-
+        if (index === -1) {
+            return;
+        }
         let offset = 1;
         let previous = changelog.releases[index + offset];
-
-        while (!previous.date) {
+        while (previous && !previous.date) {
             ++offset;
             previous = changelog.releases[index + offset];
         }
-
+        if (!previous) {
+            if (!this.version || !this.date) {
+                return;
+            }
+            return `[${this.version}]: ${changelog.url}/releases/tag/${changelog.tagName(this)}`;
+        }
         if (!this.version) {
-            return `[Unreleased]: ${changelog.url}/compare/${changelog.tagName(previous)}...${
-                changelog.head
-            }`;
+            return `[Unreleased]: ${changelog.url}/compare/${changelog.tagName(previous)}...${changelog.head}`;
         }
-
         if (!this.date) {
-            return `[${this.version}]: ${changelog.url}/compare/${changelog.tagName(previous)}...${
-                changelog.head
-            }`;
+            return `[${this.version}]: ${changelog.url}/compare/${changelog.tagName(previous)}...${changelog.head}`;
         }
-
-        return `[${this.version}]: ${changelog.url}/compare/${changelog.tagName(
-            previous
-        )}...${changelog.tagName(this)}`;
+        return `[${this.version}]: ${changelog.url}/compare/${changelog.tagName(previous)}...${changelog.tagName(this)}`;
     }
-
     getLinks(changelog) {
         const links = [];
-
         if (!changelog.url) {
             return links;
         }
-
-        this.changes.forEach((changes) =>
-            changes.forEach((change) => {
-                change.issues.forEach((issue) => {
-                    if (!links.includes(issue)) {
-                        links.push(`[#${issue}]: ${changelog.url}/issues/${issue}`);
-                    }
-                });
-            })
-        );
-
+        this.changes.forEach((changes) => changes.forEach((change) => {
+            change.issues.forEach((issue) => {
+                if (!links.includes(issue)) {
+                    links.push(`[#${issue}]: ${changelog.url}/issues/${issue}`);
+                }
+            });
+        }));
         return links;
     }
-
-    hasCompareLink(changelog) {
-        if (!changelog || !changelog.url || !changelog.releases.length) {
-            return false;
-        }
-
-        const index = changelog.releases.indexOf(this);
-        const next = changelog.releases[index + 1];
-
-        return next && next.version && next.date;
-    }
 }
-
-module.exports = Release;
-
+exports["default"] = Release;
 function formatDate(date) {
     if (!date) {
-        return 'Unreleased';
+        return "Unreleased";
     }
-
-    let year = date.getUTCFullYear(),
-        month = date.getUTCMonth() + 1,
-        day = date.getUTCDate();
-
+    const year = date.getUTCFullYear();
+    let month = date.getUTCMonth() + 1;
+    let day = date.getUTCDate();
     if (month < 10) {
-        month = '0' + month;
+        month = "0" + month;
     }
     if (day < 10) {
-        day = '0' + day;
+        day = "0" + day;
     }
-
     return `${year}-${month}-${day}`;
 }
 
 
 /***/ }),
 
-/***/ 772:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ 179:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-module.exports = {
-    parser: __webpack_require__(734),
-    Change: __webpack_require__(127),
-    Changelog: __webpack_require__(669),
-    Release: __webpack_require__(421),
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.eq = exports.Semver = void 0;
+var mod_js_1 = __nccwpck_require__(293);
+Object.defineProperty(exports, "Semver", ({ enumerable: true, get: function () { return __importDefault(mod_js_1).default; } }));
+Object.defineProperty(exports, "eq", ({ enumerable: true, get: function () { return mod_js_1.eq; } }));
 
 
 /***/ }),
 
-/***/ 734:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ 580:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-const Changelog = __webpack_require__(669);
-const Release = __webpack_require__(421);
+"use strict";
 
-const defaultOptions = {
-    releaseCreator: (version, date, description) => new Release(version, date, description),
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-module.exports = function parser(markdown, options) {
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Changelog_js_1 = __importDefault(__nccwpck_require__(697));
+const Release_js_1 = __importDefault(__nccwpck_require__(504));
+const defaultOptions = {
+    releaseCreator: (version, date, description) => new Release_js_1.default(version, date, description),
+};
+/** Parse a markdown string */
+function parser(markdown, options) {
     const opts = Object.assign({}, defaultOptions, options);
     const tokens = tokenize(markdown);
-
     try {
-        return parseTokens(tokens, opts);
-    } catch (error) {
+        return processTokens(tokens, opts);
+    }
+    catch (error) {
         throw new Error(`Parse error in the line ${tokens[0][0]}: ${error.message}`);
     }
-};
-
-function parseTokens(tokens, opts) {
-    const changelog = new Changelog();
-
-    changelog.title = getContent(tokens, 'h1', true);
-    changelog.description = getContent(tokens, 'p');
-
+}
+exports["default"] = parser;
+/** Process an array of tokens to build the Changelog */
+function processTokens(tokens, opts) {
+    const changelog = new Changelog_js_1.default("");
+    changelog.flag = getContent(tokens, "flag");
+    changelog.title = getContent(tokens, "h1", true);
+    changelog.description = getContent(tokens, "p");
     //Releases
     let release;
-
-    while ((release = getContent(tokens, 'h2').toLowerCase())) {
-        const matches = release.match(/\[?([^\]]+)\]?\s*-\s*([\d]{4}-[\d]{1,2}-[\d]{1,2})$/);
-
+    while ((release = getContent(tokens, "h2").toLowerCase())) {
+        const matches = release.match(/\[?([^\]]+)\]?\s*-\s*([\d]{4}-[\d]{1,2}-[\d]{1,2})(\s+\[yanked\])?$/);
         if (matches) {
             release = opts.releaseCreator(matches[1], matches[2]);
-        } else if (release.includes('unreleased')) {
-            const matches = release.match(/\[?([^\]]+)\]?\s*-\s*unreleased$/);
-            release = matches ? opts.releaseCreator(matches[1]) : opts.releaseCreator();
-        } else {
+            release.yanked = !!matches[3];
+        }
+        else if (release.includes("unreleased")) {
+            const matches = release.match(/\[?([^\]]+)\]?\s*-\s*unreleased(\s+\[yanked\])?$/);
+            const yanked = release.includes("[yanked]");
+            release = matches
+                ? opts.releaseCreator(matches[1])
+                : opts.releaseCreator();
+            release.yanked = yanked;
+        }
+        else {
             throw new Error(`Syntax error in the release title`);
         }
-
         changelog.addRelease(release);
-        release.description = getContent(tokens, 'p');
-
+        release.description = getContent(tokens, "p");
         let type;
-
-        while ((type = getContent(tokens, 'h3').toLowerCase())) {
+        while ((type = getContent(tokens, "h3").toLowerCase())) {
             let change;
-
-            while ((change = getContent(tokens, 'li'))) {
+            while ((change = getContent(tokens, "li"))) {
                 release.addChange(type, change);
             }
         }
     }
-
     //Skip release links
-    let link = getContent(tokens, 'link');
-
+    let link = getContent(tokens, "link");
     while (link) {
         if (!changelog.url) {
             const matches = link.match(/^\[.*\]\:\s*(http.*)\/compare\/.*$/);
-
             if (matches) {
                 changelog.url = matches[1];
             }
         }
-
-        link = getContent(tokens, 'link');
+        link = getContent(tokens, "link");
     }
-
     //Footer
-    if (getContent(tokens, 'hr')) {
-        changelog.footer = getContent(tokens, 'p');
+    if (getContent(tokens, "hr")) {
+        changelog.footer = getContent(tokens, "p");
     }
-
     if (tokens.length) {
         throw new Error(`Unexpected content ${JSON.stringify(tokens)}`);
     }
-
     return changelog;
 }
-
+/** Returns the content of a token */
 function getContent(tokens, type, required = false) {
     if (!tokens[0] || tokens[0][1] !== type) {
         if (required) {
             throw new Error(`Required token missing in: "${tokens[0][0]}"`);
         }
-
-        return '';
+        return "";
     }
-
-    return tokens.shift()[2].join('\n');
+    return tokens.shift()[2].join("\n");
 }
-
+/** Tokenize a markdown string */
 function tokenize(markdown) {
     const tokens = [];
-
     markdown
         .trim()
-        .split('\n')
+        .split("\n")
         .map((line, index, allLines) => {
-            if (line.startsWith('---')) {
-                return ['hr', ['-']];
+        const lineNumber = index + 1;
+        if (line.startsWith("---")) {
+            return [lineNumber, "hr", ["-"]];
+        }
+        if (line.startsWith("# ")) {
+            return [lineNumber, "h1", [line.substr(1).trim()]];
+        }
+        if (line.startsWith("## ")) {
+            return [lineNumber, "h2", [line.substr(2).trim()]];
+        }
+        if (line.startsWith("### ")) {
+            return [lineNumber, "h3", [line.substr(3).trim()]];
+        }
+        if (line.startsWith("-")) {
+            return [lineNumber, "li", [line.substr(1).trim()]];
+        }
+        if (line.startsWith("*")) {
+            return [lineNumber, "li", [line.substr(1).trim()]];
+        }
+        if (line.match(/^\[.*\]\:\s*http.*$/)) {
+            return [lineNumber, "link", [line.trim()]];
+        }
+        if (line.match(/^\[.*\]\:$/)) {
+            const nextLine = allLines[index + 1];
+            if (nextLine && nextLine.match(/\s+http.*$/)) {
+                // We found a multi-line link: treat it like a single line
+                allLines[index + 1] = "";
+                return [lineNumber, "link", [
+                        line.trim() + "\n" + nextLine.trimEnd(),
+                    ]];
             }
-
-            if (line.startsWith('# ')) {
-                return ['h1', [line.substr(1).trim()]];
-            }
-
-            if (line.startsWith('## ')) {
-                return ['h2', [line.substr(2).trim()]];
-            }
-
-            if (line.startsWith('### ')) {
-                return ['h3', [line.substr(3).trim()]];
-            }
-
-            if (line.startsWith('-')) {
-                return ['li', [line.substr(1).trim()]];
-            }
-
-            if (line.startsWith('*')) {
-                return ['li', [line.substr(1).trim()]];
-            }
-
-            if (line.match(/^\[.*\]\:\s*http.*$/)) {
-                return ['link', [line.trim()]];
-            }
-            if (line.match(/^\[.*\]\:$/)) {
-                const nextLine = allLines[index + 1];
-                if (nextLine && nextLine.match(/\s+http.*$/)) {
-                    // We found a multi-line link: treat it like a single line
-                    allLines[index + 1] = '';
-                    return ['link', [line.trim() + '\n' + nextLine.trimEnd()]];
-                }
-            }
-
-            return ['p', [line.trimEnd()]];
-        })
+        }
+        const result = line.match(/^<!--(.*)-->$/);
+        if (result) {
+            return [lineNumber, "flag", [result[1].trim()]];
+        }
+        return [lineNumber, "p", [line.trimEnd()]];
+    })
         .forEach((line, index) => {
-            const [type, [content]] = line;
-
-            if (index > 0) {
-                const prevType = tokens[0][1];
-
-                if (type === 'p') {
-                    if (prevType === 'p') {
-                        return tokens[0][2].push(content);
-                    }
-
-                    if (prevType === 'li') {
-                        return tokens[0][2].push(content.replace(/^\s\s/, ''));
-                    }
+        const [lineNumber, type, [content]] = line;
+        if (index > 0) {
+            const prevType = tokens[0][1];
+            if (type === "p") {
+                if (prevType === "p") {
+                    return tokens[0][2].push(content);
+                }
+                if (prevType === "li") {
+                    return tokens[0][2].push(content.replace(/^\s\s/, ""));
                 }
             }
-
-            tokens.unshift([index + 1, type, [content]]);
-        });
-
+        }
+        tokens.unshift([lineNumber, type, [content]]);
+    });
     return tokens
         .filter((token) => !isEmpty(token[2]))
         .map((token) => {
-            const content = token[2];
-
-            while (isEmpty(content[content.length - 1])) {
-                content.pop();
-            }
-
-            while (isEmpty(content[0])) {
-                content.shift();
-            }
-
-            return token;
-        })
+        const content = token[2];
+        while (isEmpty(content[content.length - 1])) {
+            content.pop();
+        }
+        while (isEmpty(content[0])) {
+            content.shift();
+        }
+        return token;
+    })
         .reverse();
 }
-
+/** Check if a string or array is empty */
 function isEmpty(val) {
     if (Array.isArray(val)) {
-        val = val.join('');
+        val = val.join("");
     }
-
-    return !val || val.trim() === '';
+    return !val || val.trim() === "";
 }
 
-
-/***/ }),
-
-/***/ 88:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-const debug = __webpack_require__(427)
-const { MAX_LENGTH, MAX_SAFE_INTEGER } = __webpack_require__(293)
-const { re, t } = __webpack_require__(523)
-
-const parseOptions = __webpack_require__(785)
-const { compareIdentifiers } = __webpack_require__(463)
-class SemVer {
-  constructor (version, options) {
-    options = parseOptions(options)
-
-    if (version instanceof SemVer) {
-      if (version.loose === !!options.loose &&
-          version.includePrerelease === !!options.includePrerelease) {
-        return version
-      } else {
-        version = version.version
-      }
-    } else if (typeof version !== 'string') {
-      throw new TypeError(`Invalid Version: ${version}`)
-    }
-
-    if (version.length > MAX_LENGTH) {
-      throw new TypeError(
-        `version is longer than ${MAX_LENGTH} characters`
-      )
-    }
-
-    debug('SemVer', version, options)
-    this.options = options
-    this.loose = !!options.loose
-    // this isn't actually relevant for versions, but keep it so that we
-    // don't run into trouble passing this.options around.
-    this.includePrerelease = !!options.includePrerelease
-
-    const m = version.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL])
-
-    if (!m) {
-      throw new TypeError(`Invalid Version: ${version}`)
-    }
-
-    this.raw = version
-
-    // these are actually numbers
-    this.major = +m[1]
-    this.minor = +m[2]
-    this.patch = +m[3]
-
-    if (this.major > MAX_SAFE_INTEGER || this.major < 0) {
-      throw new TypeError('Invalid major version')
-    }
-
-    if (this.minor > MAX_SAFE_INTEGER || this.minor < 0) {
-      throw new TypeError('Invalid minor version')
-    }
-
-    if (this.patch > MAX_SAFE_INTEGER || this.patch < 0) {
-      throw new TypeError('Invalid patch version')
-    }
-
-    // numberify any prerelease numeric ids
-    if (!m[4]) {
-      this.prerelease = []
-    } else {
-      this.prerelease = m[4].split('.').map((id) => {
-        if (/^[0-9]+$/.test(id)) {
-          const num = +id
-          if (num >= 0 && num < MAX_SAFE_INTEGER) {
-            return num
-          }
-        }
-        return id
-      })
-    }
-
-    this.build = m[5] ? m[5].split('.') : []
-    this.format()
-  }
-
-  format () {
-    this.version = `${this.major}.${this.minor}.${this.patch}`
-    if (this.prerelease.length) {
-      this.version += `-${this.prerelease.join('.')}`
-    }
-    return this.version
-  }
-
-  toString () {
-    return this.version
-  }
-
-  compare (other) {
-    debug('SemVer.compare', this.version, this.options, other)
-    if (!(other instanceof SemVer)) {
-      if (typeof other === 'string' && other === this.version) {
-        return 0
-      }
-      other = new SemVer(other, this.options)
-    }
-
-    if (other.version === this.version) {
-      return 0
-    }
-
-    return this.compareMain(other) || this.comparePre(other)
-  }
-
-  compareMain (other) {
-    if (!(other instanceof SemVer)) {
-      other = new SemVer(other, this.options)
-    }
-
-    return (
-      compareIdentifiers(this.major, other.major) ||
-      compareIdentifiers(this.minor, other.minor) ||
-      compareIdentifiers(this.patch, other.patch)
-    )
-  }
-
-  comparePre (other) {
-    if (!(other instanceof SemVer)) {
-      other = new SemVer(other, this.options)
-    }
-
-    // NOT having a prerelease is > having one
-    if (this.prerelease.length && !other.prerelease.length) {
-      return -1
-    } else if (!this.prerelease.length && other.prerelease.length) {
-      return 1
-    } else if (!this.prerelease.length && !other.prerelease.length) {
-      return 0
-    }
-
-    let i = 0
-    do {
-      const a = this.prerelease[i]
-      const b = other.prerelease[i]
-      debug('prerelease compare', i, a, b)
-      if (a === undefined && b === undefined) {
-        return 0
-      } else if (b === undefined) {
-        return 1
-      } else if (a === undefined) {
-        return -1
-      } else if (a === b) {
-        continue
-      } else {
-        return compareIdentifiers(a, b)
-      }
-    } while (++i)
-  }
-
-  compareBuild (other) {
-    if (!(other instanceof SemVer)) {
-      other = new SemVer(other, this.options)
-    }
-
-    let i = 0
-    do {
-      const a = this.build[i]
-      const b = other.build[i]
-      debug('prerelease compare', i, a, b)
-      if (a === undefined && b === undefined) {
-        return 0
-      } else if (b === undefined) {
-        return 1
-      } else if (a === undefined) {
-        return -1
-      } else if (a === b) {
-        continue
-      } else {
-        return compareIdentifiers(a, b)
-      }
-    } while (++i)
-  }
-
-  // preminor will bump the version up to the next minor release, and immediately
-  // down to pre-release. premajor and prepatch work the same way.
-  inc (release, identifier) {
-    switch (release) {
-      case 'premajor':
-        this.prerelease.length = 0
-        this.patch = 0
-        this.minor = 0
-        this.major++
-        this.inc('pre', identifier)
-        break
-      case 'preminor':
-        this.prerelease.length = 0
-        this.patch = 0
-        this.minor++
-        this.inc('pre', identifier)
-        break
-      case 'prepatch':
-        // If this is already a prerelease, it will bump to the next version
-        // drop any prereleases that might already exist, since they are not
-        // relevant at this point.
-        this.prerelease.length = 0
-        this.inc('patch', identifier)
-        this.inc('pre', identifier)
-        break
-      // If the input is a non-prerelease version, this acts the same as
-      // prepatch.
-      case 'prerelease':
-        if (this.prerelease.length === 0) {
-          this.inc('patch', identifier)
-        }
-        this.inc('pre', identifier)
-        break
-
-      case 'major':
-        // If this is a pre-major version, bump up to the same major version.
-        // Otherwise increment major.
-        // 1.0.0-5 bumps to 1.0.0
-        // 1.1.0 bumps to 2.0.0
-        if (
-          this.minor !== 0 ||
-          this.patch !== 0 ||
-          this.prerelease.length === 0
-        ) {
-          this.major++
-        }
-        this.minor = 0
-        this.patch = 0
-        this.prerelease = []
-        break
-      case 'minor':
-        // If this is a pre-minor version, bump up to the same minor version.
-        // Otherwise increment minor.
-        // 1.2.0-5 bumps to 1.2.0
-        // 1.2.1 bumps to 1.3.0
-        if (this.patch !== 0 || this.prerelease.length === 0) {
-          this.minor++
-        }
-        this.patch = 0
-        this.prerelease = []
-        break
-      case 'patch':
-        // If this is not a pre-release version, it will increment the patch.
-        // If it is a pre-release it will bump up to the same patch version.
-        // 1.2.0-5 patches to 1.2.0
-        // 1.2.0 patches to 1.2.1
-        if (this.prerelease.length === 0) {
-          this.patch++
-        }
-        this.prerelease = []
-        break
-      // This probably shouldn't be used publicly.
-      // 1.0.0 'pre' would become 1.0.0-0 which is the wrong direction.
-      case 'pre':
-        if (this.prerelease.length === 0) {
-          this.prerelease = [0]
-        } else {
-          let i = this.prerelease.length
-          while (--i >= 0) {
-            if (typeof this.prerelease[i] === 'number') {
-              this.prerelease[i]++
-              i = -2
-            }
-          }
-          if (i === -1) {
-            // didn't increment anything
-            this.prerelease.push(0)
-          }
-        }
-        if (identifier) {
-          // 1.2.0-beta.1 bumps to 1.2.0-beta.2,
-          // 1.2.0-beta.fooblz or 1.2.0-beta bumps to 1.2.0-beta.0
-          if (this.prerelease[0] === identifier) {
-            if (isNaN(this.prerelease[1])) {
-              this.prerelease = [identifier, 0]
-            }
-          } else {
-            this.prerelease = [identifier, 0]
-          }
-        }
-        break
-
-      default:
-        throw new Error(`invalid increment argument: ${release}`)
-    }
-    this.format()
-    this.raw = this.version
-    return this
-  }
-}
-
-module.exports = SemVer
-
-
-/***/ }),
-
-/***/ 309:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-const SemVer = __webpack_require__(88)
-const compare = (a, b, loose) =>
-  new SemVer(a, loose).compare(new SemVer(b, loose))
-
-module.exports = compare
-
-
-/***/ }),
-
-/***/ 898:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-const compare = __webpack_require__(309)
-const eq = (a, b, loose) => compare(a, b, loose) === 0
-module.exports = eq
-
-
-/***/ }),
-
-/***/ 293:
-/***/ ((module) => {
-
-// Note: this is the semver.org version of the spec that it implements
-// Not necessarily the package version of this code.
-const SEMVER_SPEC_VERSION = '2.0.0'
-
-const MAX_LENGTH = 256
-const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER ||
-  /* istanbul ignore next */ 9007199254740991
-
-// Max safe segment length for coercion.
-const MAX_SAFE_COMPONENT_LENGTH = 16
-
-module.exports = {
-  SEMVER_SPEC_VERSION,
-  MAX_LENGTH,
-  MAX_SAFE_INTEGER,
-  MAX_SAFE_COMPONENT_LENGTH
-}
-
-
-/***/ }),
-
-/***/ 427:
-/***/ ((module) => {
-
-const debug = (
-  typeof process === 'object' &&
-  process.env &&
-  process.env.NODE_DEBUG &&
-  /\bsemver\b/i.test(process.env.NODE_DEBUG)
-) ? (...args) => console.error('SEMVER', ...args)
-  : () => {}
-
-module.exports = debug
-
-
-/***/ }),
-
-/***/ 463:
-/***/ ((module) => {
-
-const numeric = /^[0-9]+$/
-const compareIdentifiers = (a, b) => {
-  const anum = numeric.test(a)
-  const bnum = numeric.test(b)
-
-  if (anum && bnum) {
-    a = +a
-    b = +b
-  }
-
-  return a === b ? 0
-    : (anum && !bnum) ? -1
-    : (bnum && !anum) ? 1
-    : a < b ? -1
-    : 1
-}
-
-const rcompareIdentifiers = (a, b) => compareIdentifiers(b, a)
-
-module.exports = {
-  compareIdentifiers,
-  rcompareIdentifiers
-}
-
-
-/***/ }),
-
-/***/ 785:
-/***/ ((module) => {
-
-// parse out just the options we care about so we always get a consistent
-// obj with keys in a consistent order.
-const opts = ['includePrerelease', 'loose', 'rtl']
-const parseOptions = options =>
-  !options ? {}
-  : typeof options !== 'object' ? { loose: true }
-  : opts.filter(k => options[k]).reduce((options, k) => {
-    options[k] = true
-    return options
-  }, {})
-module.exports = parseOptions
-
-
-/***/ }),
-
-/***/ 523:
-/***/ ((module, exports, __webpack_require__) => {
-
-const { MAX_SAFE_COMPONENT_LENGTH } = __webpack_require__(293)
-const debug = __webpack_require__(427)
-exports = module.exports = {}
-
-// The actual regexps go on exports.re
-const re = exports.re = []
-const src = exports.src = []
-const t = exports.t = {}
-let R = 0
-
-const createToken = (name, value, isGlobal) => {
-  const index = R++
-  debug(index, value)
-  t[name] = index
-  src[index] = value
-  re[index] = new RegExp(value, isGlobal ? 'g' : undefined)
-}
-
-// The following Regular Expressions can be used for tokenizing,
-// validating, and parsing SemVer version strings.
-
-// ## Numeric Identifier
-// A single `0`, or a non-zero digit followed by zero or more digits.
-
-createToken('NUMERICIDENTIFIER', '0|[1-9]\\d*')
-createToken('NUMERICIDENTIFIERLOOSE', '[0-9]+')
-
-// ## Non-numeric Identifier
-// Zero or more digits, followed by a letter or hyphen, and then zero or
-// more letters, digits, or hyphens.
-
-createToken('NONNUMERICIDENTIFIER', '\\d*[a-zA-Z-][a-zA-Z0-9-]*')
-
-// ## Main Version
-// Three dot-separated numeric identifiers.
-
-createToken('MAINVERSION', `(${src[t.NUMERICIDENTIFIER]})\\.` +
-                   `(${src[t.NUMERICIDENTIFIER]})\\.` +
-                   `(${src[t.NUMERICIDENTIFIER]})`)
-
-createToken('MAINVERSIONLOOSE', `(${src[t.NUMERICIDENTIFIERLOOSE]})\\.` +
-                        `(${src[t.NUMERICIDENTIFIERLOOSE]})\\.` +
-                        `(${src[t.NUMERICIDENTIFIERLOOSE]})`)
-
-// ## Pre-release Version Identifier
-// A numeric identifier, or a non-numeric identifier.
-
-createToken('PRERELEASEIDENTIFIER', `(?:${src[t.NUMERICIDENTIFIER]
-}|${src[t.NONNUMERICIDENTIFIER]})`)
-
-createToken('PRERELEASEIDENTIFIERLOOSE', `(?:${src[t.NUMERICIDENTIFIERLOOSE]
-}|${src[t.NONNUMERICIDENTIFIER]})`)
-
-// ## Pre-release Version
-// Hyphen, followed by one or more dot-separated pre-release version
-// identifiers.
-
-createToken('PRERELEASE', `(?:-(${src[t.PRERELEASEIDENTIFIER]
-}(?:\\.${src[t.PRERELEASEIDENTIFIER]})*))`)
-
-createToken('PRERELEASELOOSE', `(?:-?(${src[t.PRERELEASEIDENTIFIERLOOSE]
-}(?:\\.${src[t.PRERELEASEIDENTIFIERLOOSE]})*))`)
-
-// ## Build Metadata Identifier
-// Any combination of digits, letters, or hyphens.
-
-createToken('BUILDIDENTIFIER', '[0-9A-Za-z-]+')
-
-// ## Build Metadata
-// Plus sign, followed by one or more period-separated build metadata
-// identifiers.
-
-createToken('BUILD', `(?:\\+(${src[t.BUILDIDENTIFIER]
-}(?:\\.${src[t.BUILDIDENTIFIER]})*))`)
-
-// ## Full Version String
-// A main version, followed optionally by a pre-release version and
-// build metadata.
-
-// Note that the only major, minor, patch, and pre-release sections of
-// the version string are capturing groups.  The build metadata is not a
-// capturing group, because it should not ever be used in version
-// comparison.
-
-createToken('FULLPLAIN', `v?${src[t.MAINVERSION]
-}${src[t.PRERELEASE]}?${
-  src[t.BUILD]}?`)
-
-createToken('FULL', `^${src[t.FULLPLAIN]}$`)
-
-// like full, but allows v1.2.3 and =1.2.3, which people do sometimes.
-// also, 1.0.0alpha1 (prerelease without the hyphen) which is pretty
-// common in the npm registry.
-createToken('LOOSEPLAIN', `[v=\\s]*${src[t.MAINVERSIONLOOSE]
-}${src[t.PRERELEASELOOSE]}?${
-  src[t.BUILD]}?`)
-
-createToken('LOOSE', `^${src[t.LOOSEPLAIN]}$`)
-
-createToken('GTLT', '((?:<|>)?=?)')
-
-// Something like "2.*" or "1.2.x".
-// Note that "x.x" is a valid xRange identifer, meaning "any version"
-// Only the first item is strictly required.
-createToken('XRANGEIDENTIFIERLOOSE', `${src[t.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`)
-createToken('XRANGEIDENTIFIER', `${src[t.NUMERICIDENTIFIER]}|x|X|\\*`)
-
-createToken('XRANGEPLAIN', `[v=\\s]*(${src[t.XRANGEIDENTIFIER]})` +
-                   `(?:\\.(${src[t.XRANGEIDENTIFIER]})` +
-                   `(?:\\.(${src[t.XRANGEIDENTIFIER]})` +
-                   `(?:${src[t.PRERELEASE]})?${
-                     src[t.BUILD]}?` +
-                   `)?)?`)
-
-createToken('XRANGEPLAINLOOSE', `[v=\\s]*(${src[t.XRANGEIDENTIFIERLOOSE]})` +
-                        `(?:\\.(${src[t.XRANGEIDENTIFIERLOOSE]})` +
-                        `(?:\\.(${src[t.XRANGEIDENTIFIERLOOSE]})` +
-                        `(?:${src[t.PRERELEASELOOSE]})?${
-                          src[t.BUILD]}?` +
-                        `)?)?`)
-
-createToken('XRANGE', `^${src[t.GTLT]}\\s*${src[t.XRANGEPLAIN]}$`)
-createToken('XRANGELOOSE', `^${src[t.GTLT]}\\s*${src[t.XRANGEPLAINLOOSE]}$`)
-
-// Coercion.
-// Extract anything that could conceivably be a part of a valid semver
-createToken('COERCE', `${'(^|[^\\d])' +
-              '(\\d{1,'}${MAX_SAFE_COMPONENT_LENGTH}})` +
-              `(?:\\.(\\d{1,${MAX_SAFE_COMPONENT_LENGTH}}))?` +
-              `(?:\\.(\\d{1,${MAX_SAFE_COMPONENT_LENGTH}}))?` +
-              `(?:$|[^\\d])`)
-createToken('COERCERTL', src[t.COERCE], true)
-
-// Tilde ranges.
-// Meaning is "reasonably at or greater than"
-createToken('LONETILDE', '(?:~>?)')
-
-createToken('TILDETRIM', `(\\s*)${src[t.LONETILDE]}\\s+`, true)
-exports.tildeTrimReplace = '$1~'
-
-createToken('TILDE', `^${src[t.LONETILDE]}${src[t.XRANGEPLAIN]}$`)
-createToken('TILDELOOSE', `^${src[t.LONETILDE]}${src[t.XRANGEPLAINLOOSE]}$`)
-
-// Caret ranges.
-// Meaning is "at least and backwards compatible with"
-createToken('LONECARET', '(?:\\^)')
-
-createToken('CARETTRIM', `(\\s*)${src[t.LONECARET]}\\s+`, true)
-exports.caretTrimReplace = '$1^'
-
-createToken('CARET', `^${src[t.LONECARET]}${src[t.XRANGEPLAIN]}$`)
-createToken('CARETLOOSE', `^${src[t.LONECARET]}${src[t.XRANGEPLAINLOOSE]}$`)
-
-// A simple gt/lt/eq thing, or just "" to indicate "any version"
-createToken('COMPARATORLOOSE', `^${src[t.GTLT]}\\s*(${src[t.LOOSEPLAIN]})$|^$`)
-createToken('COMPARATOR', `^${src[t.GTLT]}\\s*(${src[t.FULLPLAIN]})$|^$`)
-
-// An expression to strip any whitespace between the gtlt and the thing
-// it modifies, so that `> 1.2.3` ==> `>1.2.3`
-createToken('COMPARATORTRIM', `(\\s*)${src[t.GTLT]
-}\\s*(${src[t.LOOSEPLAIN]}|${src[t.XRANGEPLAIN]})`, true)
-exports.comparatorTrimReplace = '$1$2$3'
-
-// Something like `1.2.3 - 1.2.4`
-// Note that these all use the loose form, because they'll be
-// checked against either the strict or loose comparator form
-// later.
-createToken('HYPHENRANGE', `^\\s*(${src[t.XRANGEPLAIN]})` +
-                   `\\s+-\\s+` +
-                   `(${src[t.XRANGEPLAIN]})` +
-                   `\\s*$`)
-
-createToken('HYPHENRANGELOOSE', `^\\s*(${src[t.XRANGEPLAINLOOSE]})` +
-                        `\\s+-\\s+` +
-                        `(${src[t.XRANGEPLAINLOOSE]})` +
-                        `\\s*$`)
-
-// Star ranges basically just allow anything at all.
-createToken('STAR', '(<|>)?=?\\s*\\*')
-// >=0.0.0 is like a star
-createToken('GTE0', '^\\s*>=\\s*0\.0\.0\\s*$')
-createToken('GTE0PRE', '^\\s*>=\\s*0\.0\.0-0\\s*$')
-
-
-/***/ }),
-
-/***/ 747:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs");;
-
-/***/ }),
-
-/***/ 87:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("os");;
-
-/***/ }),
-
-/***/ 622:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("path");;
 
 /***/ })
 
@@ -1754,10 +4498,11 @@ module.exports = require("path");;
 /******/ 	var __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
+/******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -1769,7 +4514,7 @@ module.exports = require("path");;
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
-/******/ 			__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			__webpack_modules__[moduleId].call(module.exports, module, module.exports, __nccwpck_require__);
 /******/ 			threw = false;
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
@@ -1782,11 +4527,16 @@ module.exports = require("path");;
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
-/******/ 	__webpack_require__.ab = __dirname + "/";/************************************************************************/
-/******/ 	// module exports must be returned from runtime so entry inlining is disabled
+/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
+/******/ 	
+/************************************************************************/
+/******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(109);
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(109);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

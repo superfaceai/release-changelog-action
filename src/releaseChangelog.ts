@@ -9,7 +9,11 @@ export function releaseChangelog(
   try {
     changelog = parser(fs.readFileSync(changelogPath, 'utf8'));
   } catch (err) {
-    throw Error(`Unable to parse changelog. Parser error: ${err.message}`);
+    if (err instanceof Error) {
+      throw Error(`Unable to parse changelog. Parser error: ${err.message}`);
+    } else {
+      throw Error('Unable to parse changelog.');
+    }
   }
 
   const release = changelog.findRelease(version);
