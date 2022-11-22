@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Update changelog
-        uses: @superfaceai/release-changelog-action@v1
+        uses: @superfaceai/release-changelog-action@v2
         with:
           path-to-changelog: CHANGELOG.md  # optional, default value is `CHANGELOG.md`
           version: 1.0.0
@@ -45,7 +45,7 @@ jobs:
         - uses: actions/checkout@v2
         - name: Get changelog
           id: get-changelog
-          uses: @superfaceai/release-changelog-action@v1
+          uses: @superfaceai/release-changelog-action@v2
           with:
             path-to-changelog: CHANGELOG.md
             version: 1.0.0
@@ -58,19 +58,19 @@ jobs:
 
 ## Install the dependencies
 
-```bash
+```shell
 $ yarn install
 ```
 
 ## Run tests
 
-```
+```shell
 $ yarn test
 ```
 
 ## Build and package it for distribution
 
-```
+```shell
 $ yarn build && yarn package
 ```
 
@@ -80,10 +80,15 @@ Actions are run from GitHub repos so we will checkin the packed dist folder.
 
 Then run [ncc](https://github.com/zeit/ncc) and push the results:
 
-```bash
+```shell
 $ npm run package
 $ git add dist
 $ git commit -a -m "chore: prod dependencies"
 ```
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+After testing make the new release available to those binding to the major version tag: Move the major version tag (v1, v2, etc.) to point to the ref of the current release.
+
+```shell
+$ git tag -fa v2 -m "Update v2 tag"
+$ git push origin v2 --force
+```
