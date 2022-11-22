@@ -15,5 +15,5 @@ outputs:
   changelog:
     description: 'Read or released changelog'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
