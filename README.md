@@ -27,7 +27,7 @@ jobs:
       - name: Update changelog
         uses: @superfaceai/release-changelog-action@v1
         with:
-          path-to-changelog: CHANGELOG.md
+          path-to-changelog: CHANGELOG.md  # optional, default value is `CHANGELOG.md`
           version: 1.0.0
           operation: release
 ```

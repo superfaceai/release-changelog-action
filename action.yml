@@ -4,7 +4,6 @@ author: 'superface.ai'
 inputs:
   path-to-changelog:
     description: 'Path to changelog file in keep-a-changelog format'
-    required: true
     default: ./CHANGELOG.md
   version:
     description: 'Version to be released or read'
