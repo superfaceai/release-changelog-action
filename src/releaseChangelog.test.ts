@@ -1,9 +1,8 @@
 import fs from 'fs';
-import {releaseChangelog} from './releaseChangelog';
+import {MarkdownFormat, releaseChangelog} from './releaseChangelog';
 
-function expectedChangelog(releaseDate: Date): string {
+function expectedChangelogInCompactFormat(releaseDate: Date): string {
   return `# Changelog
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
@@ -25,12 +24,51 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 `;
 }
 
+function expectedChangelogInMarkdownLintFormat(releaseDate: Date): string {
+  return `# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased]
+
+## [1.1.0] - ${releaseDate.toISOString().slice(0, 10)}
+
+### Added
+
+- New feature
+
+## [1.0.0] - 2021-04-30
+
+### Added
+
+- First version
+
+[Unreleased]: https://github.com/janhalama/test-package-releasing/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/janhalama/test-package-releasing/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/janhalama/test-package-releasing/releases/tag/v1.0.0
+`;
+}
+
 describe('releaseChangelog', () => {
-  it('should return updated changelog', () => {
+  it('should return updated changelog in compact format', () => {
     fs.writeFileSync = jest.fn();
     expect(
       releaseChangelog('./src/fixtures/CHANGELOG.fixture.md', 'v1.1.0')
-    ).toBe(expectedChangelog(new Date()));
+    ).toEqual(expectedChangelogInCompactFormat(new Date()));
+  });
+
+  it('should return updated changelog in markdownlint format', () => {
+    fs.writeFileSync = jest.fn();
+    expect(
+      releaseChangelog(
+        './src/fixtures/CHANGELOG.fixture.md',
+        'v1.1.0',
+        MarkdownFormat.Markdownlint
+      )
+    ).toEqual(expectedChangelogInMarkdownLintFormat(new Date()));
   });
 
   it('should write updated changelog to file system', () => {
@@ -41,7 +79,7 @@ describe('releaseChangelog', () => {
       './src/fixtures/CHANGELOG.fixture.md'
     );
     expect(writeFileSyncSpy.mock.calls[0][1]).toBe(
-      expectedChangelog(new Date())
+      expectedChangelogInCompactFormat(new Date())
     );
   });
 

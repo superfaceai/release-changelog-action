@@ -1,19 +1,33 @@
 import * as core from '@actions/core';
 import {getVersionChangelog} from './getVersionChangelog';
-import {releaseChangelog} from './releaseChangelog';
+import {MarkdownFormat, releaseChangelog} from './releaseChangelog';
 
 async function run(): Promise<void> {
   try {
     const pathToChangelog = core.getInput('path-to-changelog');
     const version = core.getInput('version');
     const operation = core.getInput('operation');
+    const formatInput = core.getInput('format')?.toLowerCase();
+
+    let format = MarkdownFormat.Compact;
+
+    if (
+      formatInput &&
+      Object.values(MarkdownFormat).includes(formatInput as MarkdownFormat)
+    ) {
+      format = formatInput as MarkdownFormat;
+    }
+
     core.info(
-      `${operation} changelog, path: ${pathToChangelog}, version: ${version}`
+      `${operation} changelog, path: ${pathToChangelog}, version: ${version}, format: ${format}`
     );
 
     switch (operation) {
       case 'release':
-        core.setOutput('changelog', releaseChangelog(pathToChangelog, version));
+        core.setOutput(
+          'changelog',
+          releaseChangelog(pathToChangelog, version, format)
+        );
         break;
       case 'read':
         core.setOutput(
