@@ -30,6 +30,7 @@ jobs:
           path-to-changelog: CHANGELOG.md  # optional, default value is `CHANGELOG.md`
           version: 1.0.0
           operation: release
+          format: markdownlint # optional, valid values are `compact` (default) or `markdownlint`
 ```
 
 # Read version changelog example

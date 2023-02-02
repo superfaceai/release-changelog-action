@@ -1,9 +1,13 @@
 import fs from 'fs';
 import {parser, Release} from 'keep-a-changelog';
 
+export const MarkdownFormats = ['compact', 'markdownlint'] as const;
+export type MarkdownFormat = (typeof MarkdownFormats)[number];
+
 export function releaseChangelog(
   changelogPath: string,
-  version: string
+  version: string,
+  format: MarkdownFormat = 'compact'
 ): string {
   let changelog;
   try {
@@ -15,6 +19,8 @@ export function releaseChangelog(
       throw Error('Unable to parse changelog.');
     }
   }
+
+  changelog.format = format;
 
   const release = changelog.findRelease(version);
   if (release) {
