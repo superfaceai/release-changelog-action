@@ -1,15 +1,13 @@
 import fs from 'fs';
 import {parser, Release} from 'keep-a-changelog';
 
-export enum MarkdownFormat {
-  Compact = 'compact',
-  Markdownlint = 'markdownlint'
-}
+export const MarkdownFormats = ['compact', 'markdownlint'] as const;
+export type MarkdownFormat = (typeof MarkdownFormats)[number];
 
 export function releaseChangelog(
   changelogPath: string,
   version: string,
-  format = MarkdownFormat.Compact
+  format: MarkdownFormat = 'compact'
 ): string {
   let changelog;
   try {

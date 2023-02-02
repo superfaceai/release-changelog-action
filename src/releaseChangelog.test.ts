@@ -1,5 +1,5 @@
 import fs from 'fs';
-import {MarkdownFormat, releaseChangelog} from './releaseChangelog';
+import {releaseChangelog} from './releaseChangelog';
 
 function expectedChangelogInCompactFormat(releaseDate: Date): string {
   return `# Changelog
@@ -66,7 +66,7 @@ describe('releaseChangelog', () => {
       releaseChangelog(
         './src/fixtures/CHANGELOG.fixture.md',
         'v1.1.0',
-        MarkdownFormat.Markdownlint
+        'markdownlint'
       )
     ).toEqual(expectedChangelogInMarkdownLintFormat(new Date()));
   });

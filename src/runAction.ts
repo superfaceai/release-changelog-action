@@ -1,6 +1,10 @@
 import * as core from '@actions/core';
 import {getVersionChangelog} from './getVersionChangelog';
-import {MarkdownFormat, releaseChangelog} from './releaseChangelog';
+import {
+  MarkdownFormat,
+  MarkdownFormats,
+  releaseChangelog
+} from './releaseChangelog';
 
 export async function runAction(): Promise<void> {
   try {
@@ -9,12 +13,9 @@ export async function runAction(): Promise<void> {
     const operation = core.getInput('operation');
     const formatInput = core.getInput('format')?.toLowerCase();
 
-    let format = MarkdownFormat.Compact;
+    let format: MarkdownFormat = 'compact';
 
-    if (
-      formatInput &&
-      Object.values(MarkdownFormat).includes(formatInput as MarkdownFormat)
-    ) {
+    if (MarkdownFormats.find(fmt => fmt === formatInput)) {
       format = formatInput as MarkdownFormat;
     }
 
