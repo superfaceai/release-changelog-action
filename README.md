@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Update changelog
-        uses: @superfaceai/release-changelog-action@v2
+        uses: superfaceai/release-changelog-action@v2
         with:
           path-to-changelog: CHANGELOG.md  # optional, default value is `CHANGELOG.md`
           version: 1.0.0
@@ -46,7 +46,7 @@ jobs:
         - uses: actions/checkout@v2
         - name: Get changelog
           id: get-changelog
-          uses: @superfaceai/release-changelog-action@v2
+          uses: superfaceai/release-changelog-action@v2
           with:
             path-to-changelog: CHANGELOG.md
             version: 1.0.0
