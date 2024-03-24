@@ -90,6 +90,6 @@ $ git commit -a -m "chore: prod dependencies"
 After testing make the new release available to those binding to the major version tag: Move the major version tag (v1, v2, etc.) to point to the ref of the current release.
 
 ```shell
-$ git tag -fa v2 -m "Update v2 tag"
-$ git push origin v2 --force
+$ git tag -fa v3 -m "Update v3 tag"
+$ git push origin v3 --force
 ```
